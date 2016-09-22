@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PrimeEwsi.Models
 {
     [NotMapped]
-    public class PackModel2 : UserModel
+    public class PackModel : UserModel
     {
-        public PackModel2()
+        public IEnumerable<string> Teets { get; set; }
+
+        public string ProjectId { get; set; }
+
+        public string Files { get; set; }
+
+        public string Component { get; set; }
+
+        public PackModel()
         {
             
         }
 
-        public PackModel2(UserModel userModel)
+        public PackModel(UserModel userModel)
         {
             this.Id = userModel.Id;
             this.Name = userModel.Name;

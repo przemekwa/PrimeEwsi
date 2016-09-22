@@ -25,7 +25,17 @@ namespace PrimeEwsi.Controllers
                 return RedirectToAction("New", "Register");
             }
 
-            return View(new PackModel2(userModel));
+            return View(new PackModel(userModel)
+            {
+                Teets = new List<string> { "Teest1"}
+            });
+        }
+
+
+        public ActionResult Add(PackModel packModel)
+        {
+            ;
+            return RedirectToAction("Create");
         }
     }
 }

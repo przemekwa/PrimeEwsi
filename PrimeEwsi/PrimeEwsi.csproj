@@ -150,6 +150,7 @@
     <Content Include="packages.config" />
     <Content Include="Views\Pack\Create.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\Pack\NewTeet.cshtml" />
     <None Include="Views\Register\New.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

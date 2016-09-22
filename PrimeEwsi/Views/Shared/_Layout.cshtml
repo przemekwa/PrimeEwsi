@@ -8,7 +8,21 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
- 
+    <script type="text/javascript">
+
+        $("#addbook").on('click', function () {
+
+            $.ajax({
+                async: false,
+                url: '/Pack/Add'
+            }).success(function (partialView) {
+
+                $('#newBooks').append(partialView);
+
+            });
+        });
+
+    </script>
    
    
 </head>

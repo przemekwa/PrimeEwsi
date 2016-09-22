@@ -1,8 +1,53 @@
-﻿@model dynamic
+﻿@model PrimeEwsi.Models.PackModel
 
 @{
     ViewBag.Title = "title";
-   
+
 }
 
-<h2>title</h2>
+<h2>Download the full pack</h2>
+
+
+
+
+<div class="panel panel-primary" style="width: 70%; margin-top: 20px">
+    <div class="panel-heading">
+        <h3 class="panel-title">Add Pack</h3>
+    </div>
+    <div class="panel-body">
+
+
+        @using (Html.BeginForm("Add","Pack"))
+        {
+            @Html.ValidationSummary()
+
+            <table>
+                <tr >
+                    <td>Teets</td>
+                    <td> @Html.EditorFor(m => m.Teets) </td>
+                </tr>
+                <tr>
+                    <td>Component</td>
+                    <td>@Html.DropDownListFor(m=>m.Component, new List<SelectListItem>() { new SelectListItem { Value = "AddonLive", Text = "Baza Addon Live"}, new SelectListItem { Value = "WBK20", Text = "Baza Wbk 2.0" } }) </td>
+                </tr>
+                <tr>
+                    <td>Projects</td>
+                    <td>@Html.EditorFor(m => m.ProjectId)</td>
+                </tr>
+                <tr>
+                    <td>Files</td>
+                    <td>@Html.TextAreaFor(m => m.Files, new{ @rows=10, @cols=300}) </td>
+                </tr>
+
+            </table>
+         
+
+            <input type="submit" value="Download" />
+
+        }
+    </div>
+</div>
+
+
+
+
