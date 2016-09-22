@@ -13,6 +13,9 @@ namespace PrimeEwsi
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            AppDomain.CurrentDomain.SetData("DataDirectory", HttpContext.Current.Server.MapPath("./"));
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,15 +10,22 @@ namespace PrimeEwsi.Controllers
 {
     public class PackController : Controller
     {
-        // GET: Create
+
+        public PrimeEwsiContext PrimeEwsiContext { get; set; } = new PrimeEwsiContext();
+
+   // GET: Create
         public ActionResult Create()
         {
             var userSkp = this.HttpContext.User.Identity.Name;
 
-            return View(new PackModel
+            var userModel = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
+
+            if (userModel == null)
             {
-                Id = userSkp
-            });
+                return RedirectToAction("New", "Register");
+            }
+
+            return View(new PackModel2(userModel));
         }
     }
 }
