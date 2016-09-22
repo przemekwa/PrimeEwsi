@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using PrimeEwsi.Models;
+using UrbanCodeMetaFileCreator;
+using UrbanCodeMetaFileCreator.Dto;
 
 namespace PrimeEwsi.Controllers
 {
@@ -34,8 +38,44 @@ namespace PrimeEwsi.Controllers
 
         public ActionResult Add(PackModel packModel)
         {
-            ;
-            return RedirectToAction("Create");
+            var dc = new DeploymentPackageDeploymentComponent
+            {
+                Name = packModel.Component,
+                Version = new DeploymentPackageDeploymentComponentVersion
+                {
+                    Type = "Full",
+                    Property = (new List<DeploymentPackageDeploymentComponentProperty>
+                    {
+                        new DeploymentPackageDeploymentComponentProperty
+                        {
+                        Name = "dsad"
+                    }}).ToArray(),
+
+                    
+                    FileList = packModel.Files.Split(new []  { "\\r\\n"}, StringSplitOptions.RemoveEmptyEntries)
+                }
+            };
+
+            Helper.Manifestfilename = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(null), "manifest.xml");
+
+            var xmlFile = Helper.SaveXml(new DeploymentPackage
+            {
+                DeploymentComponent = new DeploymentPackageDeploymentComponent[1] {dc}
+            });
+
+            var pathToZipFile = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(null), "file.zip");
+
+            Helper.CreateZipFile(new List<FileInfo>() {xmlFile}, pathToZipFile);
+
+            var cd = new System.Net.Mime.ContentDisposition
+            {
+                FileName = "file.zip",
+                Inline = false,
+            };
+
+            Response.AppendHeader("Content-Disposition", cd.ToString());
+
+            return File(System.IO.File.ReadAllBytes(pathToZipFile), MimeMapping.GetMimeMapping("file.zip"));
         }
     }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DeploymentComponent Name="AddonLive">
+    <Version>
+      <Name>66ff1322-ab44-4dbc-a63f-ceb3a91f077d</Name>
+      <Type>Full</Type>
+      <FileList>
+        <FileName>2342</FileName>
+      </FileList>
+      <Property>
+        <Name>dsad</Name>
+      </Property>
+    </Version>
+  </DeploymentComponent>
+</DeploymentPackage>

@@ -162,6 +162,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UrbanCodeMetaFileCreator\UrbanCodeMetaFileCreator.csproj">
+      <Project>{90c292ef-b515-4b23-b455-53148b09cac3}</Project>
+      <Name>UrbanCodeMetaFileCreator</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

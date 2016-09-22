@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanCodeMetaFileCreator", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanCodeMetaFileCreatorTests", "UrbanCodeMetaFileCreatorTests\UrbanCodeMetaFileCreatorTests.csproj", "{C749E5B6-5DBD-49B9-9E99-46260D39677F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanCodeMetaFile", "UrbanCodeMetaFile\UrbanCodeMetaFile.csproj", "{CC90D808-FD5D-45B8-BAB6-D7A2ED4E35B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C749E5B6-5DBD-49B9-9E99-46260D39677F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C749E5B6-5DBD-49B9-9E99-46260D39677F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C749E5B6-5DBD-49B9-9E99-46260D39677F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC90D808-FD5D-45B8-BAB6-D7A2ED4E35B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC90D808-FD5D-45B8-BAB6-D7A2ED4E35B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC90D808-FD5D-45B8-BAB6-D7A2ED4E35B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC90D808-FD5D-45B8-BAB6-D7A2ED4E35B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
