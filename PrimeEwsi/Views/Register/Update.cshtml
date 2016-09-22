@@ -1,26 +1,26 @@
 ﻿@model PrimeEwsi.Models.UserModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Update";
    }
 
  <div class="panel panel-primary" style="width: 50%; margin-top: 20px">
     <div class="panel-heading">
-        <h3 class="panel-title">Add new user profile</h3>
+        <h3 class="panel-title">User profile update</h3>
     </div>
     <div class="panel-body">
         
-        @using (Html.BeginForm("Add", "Register"))
+        @using (Html.BeginForm("Update", "Register"))
         {
             @Html.ValidationSummary()
 
-            <p>Nick @Html.EditorFor(m => m.Name)</p>
+            <p>Nick @Html.EditorFor(m => m.Name, new { value=@Model.Name })</p>
 
             <p>SVN User Name @Html.EditorFor(m => m.SvnUser)</p>
 
             <p>SVN Password  @Html.EditorFor(m => m.SvnPassword)</p>
 
-            <input type="submit" value="Add" />
+            <input type="submit" value="Update" />
         }
     </div>
 </div>

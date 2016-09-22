@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -20,6 +21,23 @@ namespace PrimeEwsi.Controllers
             });
         }
 
+        public ActionResult Edit()
+        {
+            return View("Update", GetUserModel());
+        }
+
+        public ActionResult Update(UserModel userModel)
+        {
+            var userDb = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == this.HttpContext.User.Identity.Name);
+
+            userDb.Name = userModel.Name;
+            userDb.SvnUser = userDb.SvnUser;
+            userDb.SvnPassword = userDb.SvnPassword;
+
+            this.PrimeEwsiContext.SaveChanges();
+
+            return RedirectToAction("Create", "Pack");
+        }
 
         public ActionResult Add(UserModel userModel)
         {
@@ -29,6 +47,14 @@ namespace PrimeEwsi.Controllers
 
             this.PrimeEwsiContext.SaveChanges();
             return RedirectToAction("Create", "Pack");
+        }
+
+        private UserModel GetUserModel()
+        {
+            var userSkp = this.HttpContext.User.Identity.Name;
+
+            var userModel = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
+            return userModel;
         }
     }
 }
