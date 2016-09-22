@@ -139,9 +139,9 @@ namespace UrbanCodeMetaFileCreator
             };
         }
 
-        public static FileInfo DownloadFileUsingWebClient(Dto.SqlFile sqlFile, NetworkCredential networkCredential)
+        public static FileInfo DownloadFileUsingWebClient(Dto.SqlFile sqlFile, NetworkCredential networkCredential, string serverPath)
         {
-            var path = Path.Combine(Path.GetTempPath(), sqlFile.Name);
+            var path = Path.Combine(serverPath, sqlFile.Name);
 
             using (var webClient = new WebClient())
             {

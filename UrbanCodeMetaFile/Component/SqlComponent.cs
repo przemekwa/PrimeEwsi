@@ -42,12 +42,12 @@ namespace UrbanCodeMetaFile.Component
         {
 
 
-            this.Files = base.ControlFileDto.DeploymentPackage.Single(d => d.DeploymentComponentName == base.Component)
-                    .Files.Select(sqlFile => Helper.DownloadFileUsingWebClient(sqlFile, new NetworkCredential
-                    {
-                        Password = base.ControlFileDto.SvnCredential.Pasword,
-                        UserName = base.ControlFileDto.SvnCredential.User
-                    }));
+            //this.Files = base.ControlFileDto.DeploymentPackage.Single(d => d.DeploymentComponentName == base.Component)
+            //        .Files.Select(sqlFile => Helper.DownloadFileUsingWebClient(sqlFile, new NetworkCredential
+            //        {
+            //            Password = base.ControlFileDto.SvnCredential.Pasword,
+            //            UserName = base.ControlFileDto.SvnCredential.User
+            //        }));
         }
     }
 }

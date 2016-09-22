@@ -22,3 +22,5 @@ namespace UrbanCodeMetaFileCreator.Dto
         public SqlFile[] Files { get; set; }
     }
 }
+
+
