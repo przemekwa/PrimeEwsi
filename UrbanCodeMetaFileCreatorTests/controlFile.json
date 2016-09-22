@@ -1,0 +1,37 @@
+﻿{
+  "SvnCredential": {
+    "User": "127356",
+    "Pasword": "polak2"
+  },
+
+  "DeploymentPackage": [
+    {
+      "DeploymentComponentName": "AddonLive",
+      "Files": [
+        {
+          "Name": "wbk_create_fee.sql",
+          "URL": "http://10.151.74.149/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"
+        },
+        {
+          "Name": "Triggers.sql",
+          "URL": "http://10.151.74.149/svn/svn7/trunk/Modul-Ubezpieczen/SQL/Triggers.sql"
+        }
+      ]
+
+    },
+    {
+      "DeploymentComponentName": "WBK20",
+      "Files": [
+        {
+          "Name": "wbk_create_feeWBK20.sql",
+          "URL": "http://10.151.74.149/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"
+        },
+        {
+          "Name": "Triggers.sqlWBK20",
+          "URL": "http://10.151.74.149/svn/svn7/trunk/Modul-Ubezpieczen/SQL/Triggers.sql"
+        }
+      ]
+
+    }
+  ]
+}
