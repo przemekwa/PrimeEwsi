@@ -1,12 +1,11 @@
 ﻿@model PrimeEwsi.Models.PackModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Download the full pack";
 
 }
 
-<h2>Download the full pack</h2>
-
+<h2>Create pack</h2>
 
 <div class="panel panel-primary" style="width: 70%; margin-top: 20px">
     <div class="panel-heading">
@@ -25,7 +24,14 @@
                 </tr>
                 <tr>
                     <td>Component</td>
-                    <td>@Html.DropDownListFor(m=>m.Component, new List<SelectListItem>() { new SelectListItem { Value = "AddonLive", Text = "Baza Addon Live"}, new SelectListItem { Value = "WBK20", Text = "Baza Wbk 2.0" } }) </td>
+                    <td>@Html.DropDownListFor(m=>m.Component, new List<SelectListItem>()
+                   {
+                       new SelectListItem
+                       {
+                       Value = "AddonLive",
+                       Text = "Baza Addon Live"
+                   },
+                       new SelectListItem { Value = "WBK20", Text = "Baza Wbk 2.0" } }) </td>
                 </tr>
                 <tr>
                     <td>Projects</td>
@@ -37,10 +43,8 @@
                 </tr>
 
             </table>
-         
 
             <input type="submit" value="Download" />
-
         }
     </div>
 </div>

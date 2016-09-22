@@ -29,7 +29,6 @@ namespace PrimeEwsi.Models
             this.Name = userModel.Name;
             this.Skp = userModel.Skp;
             this.SvnPassword = userModel.SvnPassword;
-            this.SvnUrl = userModel.SvnUrl;
             this.SvnUser = userModel.SvnUser;
         }
     }

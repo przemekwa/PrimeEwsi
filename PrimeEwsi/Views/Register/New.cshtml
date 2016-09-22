@@ -9,8 +9,7 @@
         <h3 class="panel-title">Add new user</h3>
     </div>
     <div class="panel-body">
-
-
+        
         @using (Html.BeginForm("Add", "Register"))
         {
             @Html.ValidationSummary()
@@ -21,12 +20,7 @@
 
             <p>SVN Password  @Html.EditorFor(m => m.SvnPassword)</p>
 
-            <p>SVN Url @Html.EditorFor(m => m.SvnUrl)</p>
-
-           
-
             <input type="submit" value="Add" />
-
         }
     </div>
 </div>

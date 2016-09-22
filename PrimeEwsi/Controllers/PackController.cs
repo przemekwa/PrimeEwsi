@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -49,7 +50,7 @@ namespace PrimeEwsi.Controllers
             var svnUrls =
                 packModel.Files.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Select(d => new SqlFile
                 {
-                    Name = d.Substring(d.LastIndexOf("/")),
+                    Name = d.Substring(d.LastIndexOf("/")+1),
                     URL = d
                 });
 
@@ -81,19 +82,20 @@ namespace PrimeEwsi.Controllers
 
             listOfLiles.Add(xmlFile);
 
-            var pathToZipFile = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(null), "file.zip");
+            var zipFileInfo =
+                new FileInfo(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(null), $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip" ));
 
-            Helper.CreateZipFile(listOfLiles, pathToZipFile);
+            Helper.CreateZipFile(listOfLiles, zipFileInfo.FullName);
 
-            var cd = new System.Net.Mime.ContentDisposition
+            var cd = new ContentDisposition
             {
-                FileName = "file.zip",
+                FileName = zipFileInfo.Name,
                 Inline = false,
             };
 
             Response.AppendHeader("Content-Disposition", cd.ToString());
 
-            return File(System.IO.File.ReadAllBytes(pathToZipFile), MimeMapping.GetMimeMapping("file.zip"));
+            return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
         }
     }
 }

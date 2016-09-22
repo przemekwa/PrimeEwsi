@@ -24,10 +24,7 @@ namespace PrimeEwsi.Models
         public string SvnUser { get; set; }
 
         [Column("svn_password")]
-        
         public string SvnPassword { get; set; }
-
-        [Column("svn_url")]
-        public string SvnUrl { get; set; }
+        
     }
 }
