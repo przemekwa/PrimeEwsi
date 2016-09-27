@@ -11,6 +11,7 @@ namespace PrimeEwsi
     public class PrimeEwsiContext : DbContext
     {
         public DbSet<UserModel> UsersModel { get; set; }
+        public DbSet<ConfigModel> ConfigModel { get; set; }
 
         public PrimeEwsiContext() : base("primeEwsi")
         {

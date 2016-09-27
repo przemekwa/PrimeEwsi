@@ -143,6 +143,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\PackModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="PrimeEwsiContext.cs" />

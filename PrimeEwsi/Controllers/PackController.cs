@@ -32,12 +32,15 @@ namespace PrimeEwsi.Controllers
                 return RedirectToAction("New", "Register");
             }
 
+            var random = new Random();
+
             return View(new PackModel(userModel)
             {
                 Teets = new List<string> { "TEET-53629" },
                 TestEnvironment = "ZT001 - POZPP07",
                 Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
                 ProjectId = "Production Operations",
+                Version = random.Next(1000).ToString()
             });
         }
 
@@ -47,6 +50,15 @@ namespace PrimeEwsi.Controllers
 
             var userModel = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
             return userModel;
+        }
+
+        public void UpdateVersion(string component)
+        {
+            var configModel = this.PrimeEwsiContext.ConfigModel.SingleOrDefault(m => m.Component == component);
+
+            configModel.Version = configModel.Version+1;
+
+            this.PrimeEwsiContext.SaveChanges();
         }
 
         public ActionResult Add(PackModel packModel)
@@ -70,7 +82,7 @@ namespace PrimeEwsi.Controllers
                 Name = packModel.Component,
                 Version = new DeploymentPackageDeploymentComponentVersion
                 {
-                    
+                    Name = this.PrimeEwsiContext.ConfigModel.Single(c=>c.Component == packModel.Component).Version.ToString(),
                     Type = "Full",
                     Property = (new List<DeploymentPackageDeploymentComponentProperty>()).ToArray(),
                     FileList = svnUrls.Select(d=>d.Name).ToArray()
@@ -103,6 +115,8 @@ namespace PrimeEwsi.Controllers
             };
 
             Response.AppendHeader("Content-Disposition", cd.ToString());
+
+            this.UpdateVersion(packModel.Component);
 
             return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
         }

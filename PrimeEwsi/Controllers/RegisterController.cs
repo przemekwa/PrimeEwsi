@@ -31,8 +31,8 @@ namespace PrimeEwsi.Controllers
             var userDb = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == this.HttpContext.User.Identity.Name);
 
             userDb.Name = userModel.Name;
-            userDb.SvnUser = userDb.SvnUser;
-            userDb.SvnPassword = userDb.SvnPassword;
+            userDb.SvnUser = userModel.SvnUser;
+            userDb.SvnPassword = userModel.SvnPassword;
 
             this.PrimeEwsiContext.SaveChanges();
 

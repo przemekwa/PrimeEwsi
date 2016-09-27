@@ -93,11 +93,6 @@ namespace UrbanCodeMetaFileCreator
                 throw new ArgumentException(nameof(deploymentPackage));
             }
 
-            foreach (var component in deploymentPackage.DeploymentComponent)
-            {
-               component.Version.Name = Guid.NewGuid().ToString();
-            }
-
             var xmlSerializer = new XmlSerializer(typeof(DeploymentPackage));
 
             using (var sw = new StreamWriter(Manifestfilename))
