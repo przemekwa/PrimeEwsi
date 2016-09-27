@@ -28,14 +28,18 @@
                    {
                        new SelectListItem
                        {
-                       Value = "AddonLive",
+                       Value = "PRIME_baza_addon_live",
                        Text = "Baza Addon Live"
                    },
-                       new SelectListItem { Value = "WBK20", Text = "Baza Wbk 2.0" } }) </td>
+                       new SelectListItem { Value = "PRIME_baza_wbk20", Text = "Baza Wbk 2.0" } }) </td>
                 </tr>
                 <tr>
                     <td>Projects</td>
                     <td>@Html.EditorFor(m => m.ProjectId)</td>
+                </tr>
+                <tr>
+                    <td>Test environment</td>
+                    <td>@Html.EditorFor(m => m.TestEnvironment)</td>
                 </tr>
                 <tr>
                     <td>Files</td>

@@ -6,6 +6,10 @@ namespace UrbanCodeMetaFileCreator.Dto
     public partial class DeploymentPackage
     {
         /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("TestEnvironment")]
+        public string TestEnvironment { get; set; }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("DeploymentComponent")]
         public DeploymentPackageDeploymentComponent[] DeploymentComponent { get; set; }
 

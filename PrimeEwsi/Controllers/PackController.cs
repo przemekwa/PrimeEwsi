@@ -17,12 +17,15 @@ namespace PrimeEwsi.Controllers
     public class PackController : Controller
     {
 
+        public string ServerPath { get; } = System.Web.HttpContext.Current.Server.MapPath("~");
+
         public PrimeEwsiContext PrimeEwsiContext { get; set; } = new PrimeEwsiContext();
 
    // GET: Create
         public ActionResult Create()
         {
             UserModel userModel = GetUserModel();
+
 
             if (userModel == null)
             {
@@ -31,7 +34,10 @@ namespace PrimeEwsi.Controllers
 
             return View(new PackModel(userModel)
             {
-                Teets = new List<string> { "Teest1" }
+                Teets = new List<string> { "TEET-53629" },
+                TestEnvironment = "ZT001 - POZPP07",
+                Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
+                ProjectId = "Production Operations",
             });
         }
 
@@ -56,25 +62,28 @@ namespace PrimeEwsi.Controllers
 
             var nc = new NetworkCredential {UserName = userModel.SvnUser, Password = userModel.SvnPassword};
 
-            var listOfLiles = svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, System.Web.HttpContext.Current.Server.MapPath(null))).ToList();
+            var listOfLiles = svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, this.ServerPath)).ToList();
 
             var dc = new DeploymentPackageDeploymentComponent
             {
+                
                 Name = packModel.Component,
                 Version = new DeploymentPackageDeploymentComponentVersion
                 {
+                    
                     Type = "Full",
                     Property = (new List<DeploymentPackageDeploymentComponentProperty>()).ToArray(),
                     FileList = svnUrls.Select(d=>d.Name).ToArray()
                 }
             };
 
-            Helper.Manifestfilename = Path.Combine(System.Web.HttpContext.Current.Server.MapPath(null), "manifest.xml");
+            Helper.Manifestfilename = Path.Combine(this.ServerPath, "metafile.xml");
 
             var xmlFile = Helper.SaveXml(new DeploymentPackage
             {
                 provider = "BZWBK",
                 system = "PRIME",
+                TestEnvironment =packModel.TestEnvironment,
                 IchangeProjects = new List<string> { packModel.ProjectId}.ToArray(),
                 ResolvedIssues = packModel.Teets.ToArray(),
                 DeploymentComponent = new DeploymentPackageDeploymentComponent[1] {dc}
@@ -83,7 +92,7 @@ namespace PrimeEwsi.Controllers
             listOfLiles.Add(xmlFile);
 
             var zipFileInfo =
-                new FileInfo(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(null), $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip" ));
+                new FileInfo(Path.Combine(this.ServerPath, $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip" ));
 
             Helper.CreateZipFile(listOfLiles, zipFileInfo.FullName);
 

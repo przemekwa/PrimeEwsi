@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" provider="BZWBK" system="PRIME">
-  <DeploymentComponent Name="WBK20">
+  <DeploymentComponent Name="AddonLive">
     <Version>
-      <Name>bdaa2e14-7ef2-490b-99cd-65538176c655</Name>
+      <Name>91094ff5-b16a-4683-8745-b43dd29e2d90</Name>
       <Type>Full</Type>
       <FileList>
         <FileName>wbk_create_fee.sql</FileName>
@@ -10,9 +10,9 @@
     </Version>
   </DeploymentComponent>
   <ResolvedIssues>
-    <TKey>Teet-34353</TKey>
+    <TKey>Teest1</TKey>
   </ResolvedIssues>
   <IchangeProjects>
-    <Pname>Production Operation</Pname>
+    <Pname>67567</Pname>
   </IchangeProjects>
 </DeploymentPackage>

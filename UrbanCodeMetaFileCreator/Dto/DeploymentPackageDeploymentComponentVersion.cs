@@ -1,13 +1,15 @@
+using System.Xml.Serialization;
+
 namespace UrbanCodeMetaFileCreator.Dto
 {
     /// <remarks/>
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     public partial class DeploymentPackageDeploymentComponentVersion
     {
-        /// <remarks/>
+        [XmlElement("name")]
         public string Name { get; set; }
 
-        /// <remarks/>
+        [XmlElement("type")]
         public string Type { get; set; }
 
         /// <remarks/>

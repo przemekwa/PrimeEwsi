@@ -8,7 +8,7 @@ namespace UrbanCodeMetaFileCreator.Dto
         public DeploymentPackageDeploymentComponentVersion Version { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute("name")]
         public string Name { get; set; }
     }
 }
