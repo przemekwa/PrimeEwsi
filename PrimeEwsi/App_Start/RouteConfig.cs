@@ -18,6 +18,12 @@ namespace PrimeEwsi
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Pack", action = "Create", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+             "Root",
+             "",
+             new { controller = "Pack", action = "Create", id = UrlParameter.Optional }
+           );
         }
     }
 }
