@@ -5,10 +5,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 using PrimeEwsi.Models;
+using RestSharp;
+using RestSharp.Authenticators;
 using UrbanCodeMetaFileCreator;
 using UrbanCodeMetaFileCreator.Dto;
 
@@ -36,11 +39,11 @@ namespace PrimeEwsi.Controllers
 
             return View(new PackModel(userModel)
             {
-                Teets = new List<string> { "TEET-53629" },
+                Teets = new List<string> { "Teet-34353" },
                 TestEnvironment = "ZT001 - POZPP07",
                 Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
-                ProjectId = "Production Operations",
-                Version = random.Next(1000).ToString()
+                ProjectId = "Production Operations"
+               
             });
         }
 
@@ -64,28 +67,98 @@ namespace PrimeEwsi.Controllers
         public ActionResult Add(PackModel packModel)
         {
             UserModel userModel = GetUserModel();
+            FileInfo zipFileInfo = GetPack(packModel, userModel);
 
+            return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
+        }
+
+        public ActionResult Send(PackModel packModel)
+        {
+
+
+            UserModel userModel = GetUserModel();
+            FileInfo zipFileInfo = GetPack(packModel, userModel);
+
+            var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
+
+            var cookieJar = new CookieContainer();
+
+            var restClient = new RestClient("https://wro2096v.centrala.bzwbk:9999/artifactory/")
+            {
+                Authenticator = new HttpBasicAuthenticator("127356", "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN"),
+                CookieContainer = cookieJar
+            };
+
+
+            var request = new RestRequest("/bzwbk-tmp/BZWBK/PRIME/", Method.PUT);
+            request.AddHeader("Content-Type", "application/zip");
+            request.AddHeader("Content-Disposition",
+                string.Format("file; filename=\"{0}\"; documentid={1}; fileExtension=\"{2}\"",
+                Path.GetFileNameWithoutExtension(zipFileInfo.Name), "1", Path.GetExtension(zipFileInfo.Name)));
+            request.AddParameter("application/zip", bytes, ParameterType.RequestBody);
+
+
+
+            //request.AddFile("a.zip", zipFileInfo.FullName, "application/zip");
+                
+            
+            var resonse = restClient.Execute(request);
+
+            
+
+            //var client = new HttpClient();
+            //client.DefaultRequestHeaders.Add("X-Auth_User", "127356");
+            //client.DefaultRequestHeaders.Add("X-Auth-Key", "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN");
+            
+            //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/pjpeg"));
+            
+            //var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
+
+            //var ms = new MemoryStream(bytes);
+
+            //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/pjpeg"));
+            //var content = new StreamContent(ms);
+
+
+            //var response =
+            //    client.PutAsync("https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/", content)
+            //        .Result;
+
+            
+
+            return View("Send", "sds");
+
+            //using (var streamReader = new StreamReader(response.GetResponseStream()))
+            //{
+            //    var answer = streamReader.ReadToEnd();
+
+                
+            //}
+        }
+
+        private FileInfo GetPack(PackModel packModel, UserModel userModel)
+        {
             var svnUrls =
-                packModel.Files.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Select(d => new SqlFile
-                {
-                    Name = d.Substring(d.LastIndexOf("/")+1),
-                    URL = d
-                });
+                            packModel.Files.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Select(d => new SqlFile
+                            {
+                                Name = d.Substring(d.LastIndexOf("/") + 1),
+                                URL = d
+                            });
 
-            var nc = new NetworkCredential {UserName = userModel.SvnUser, Password = userModel.SvnPassword};
+            var nc = new NetworkCredential { UserName = userModel.SvnUser, Password = userModel.SvnPassword };
 
             var listOfLiles = svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, this.ServerPath)).ToList();
 
             var dc = new DeploymentPackageDeploymentComponent
             {
-                
+
                 Name = packModel.Component,
                 Version = new DeploymentPackageDeploymentComponentVersion
                 {
-                    Name = this.PrimeEwsiContext.ConfigModel.Single(c=>c.Component == packModel.Component).Version.ToString(),
+                    Name = this.PrimeEwsiContext.ConfigModel.Single(c => c.Component == packModel.Component).Version.ToString(),
                     Type = "Full",
                     Property = (new List<DeploymentPackageDeploymentComponentProperty>()).ToArray(),
-                    FileList = svnUrls.Select(d=>d.Name).ToArray()
+                    FileList = svnUrls.Select(d => d.Name).ToArray()
                 }
             };
 
@@ -95,16 +168,16 @@ namespace PrimeEwsi.Controllers
             {
                 provider = "BZWBK",
                 system = "PRIME",
-                TestEnvironment =packModel.TestEnvironment,
-                IchangeProjects = new List<string> { packModel.ProjectId}.ToArray(),
+                TestEnvironment = packModel.TestEnvironment,
+                IchangeProjects = new List<string> { packModel.ProjectId }.ToArray(),
                 ResolvedIssues = packModel.Teets.ToArray(),
-                DeploymentComponent = new DeploymentPackageDeploymentComponent[1] {dc}
+                DeploymentComponent = new DeploymentPackageDeploymentComponent[1] { dc }
             });
 
             listOfLiles.Add(xmlFile);
 
             var zipFileInfo =
-                new FileInfo(Path.Combine(this.ServerPath, $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip" ));
+                new FileInfo(Path.Combine(this.ServerPath, $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip"));
 
             Helper.CreateZipFile(listOfLiles, zipFileInfo.FullName);
 
@@ -118,7 +191,7 @@ namespace PrimeEwsi.Controllers
 
             this.UpdateVersion(packModel.Component);
 
-            return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
+            return zipFileInfo;
         }
     }
 }
