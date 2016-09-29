@@ -69,6 +69,7 @@
     <Compile Include="Dto\SvnCredential.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="UrbanCodeMetaFIleApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
