@@ -157,6 +157,7 @@
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\PackModel.cs" />
     <Compile Include="Models\UserModel.cs" />
+    <Compile Include="MultipleButtonAttribute.cs" />
     <Compile Include="PackApi.cs" />
     <Compile Include="PrimeEwsiContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

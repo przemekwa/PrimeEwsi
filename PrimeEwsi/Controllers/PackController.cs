@@ -27,7 +27,7 @@ namespace PrimeEwsi.Controllers
    // GET: Create
         public ActionResult Create()
         {
-            UserModel userModel = GetUserModel();
+            var userModel = GetUserModel();
 
 
             if (userModel == null)
@@ -64,20 +64,23 @@ namespace PrimeEwsi.Controllers
             this.PrimeEwsiContext.SaveChanges();
         }
 
-        public ActionResult Add(PackModel packModel)
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "Download")]
+        public ActionResult Download(PackModel packModel)
         {
-            UserModel userModel = GetUserModel();
-            FileInfo zipFileInfo = GetPack(packModel, userModel);
+            var userModel = GetUserModel();
+
+            var zipFileInfo = GetPack(packModel, userModel);
 
             return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
         }
 
+        [HttpPost]
+        [MultipleButton(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-
-
-            UserModel userModel = GetUserModel();
-            FileInfo zipFileInfo = GetPack(packModel, userModel);
+            var userModel = GetUserModel();
+            var zipFileInfo = GetPack(packModel, userModel);
 
             var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
 
