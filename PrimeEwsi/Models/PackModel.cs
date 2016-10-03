@@ -11,7 +11,9 @@ namespace PrimeEwsi.Models
     [NotMapped]
     public class PackModel : UserModel
     {
-        public IEnumerable<string> Teets { get; set; }
+        public IEnumerable<Pack> HistoryPackCollection { get; set; }
+
+        public string Teets { get; set; }
       
         public string ProjectId { get; set; }
       

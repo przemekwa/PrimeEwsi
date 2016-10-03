@@ -21,7 +21,13 @@
                 <tr >
                     <td>Teets</td>
                     <td>
-                         @Html.EditorFor(m => m.Teets) <a href="#" onclick="AddText(this)">Teet-33535</a>
+                        @Html.EditorFor(m => m.Teets)
+
+                        @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).Take(3))
+                        {
+                        <a href="#" onclick="AddText(this)">@pack.Teets</a>
+                        }
+                        
                     </td>
                 </tr>
                 <tr>

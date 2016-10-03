@@ -36,14 +36,20 @@ namespace PrimeEwsi.Controllers
 
             var random = new Random();
 
+
             return View(new PackModel(userModel)
             {
-                Teets = new List<string> { "Teet-34353" },
-                TestEnvironment = "ZT001 - POZPP07",
-                Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
-                ProjectId = "Production Operations"
-               
+                HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id)
             });
+
+            //return View(new PackModel(userModel)
+            //{
+            //    Teets = new List<string> { "Teet-34353" },
+            //    TestEnvironment = "ZT001 - POZPP07",
+            //    Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
+            //    ProjectId = "Production Operations"
+
+            //});
         }
 
         private UserModel GetUserModel()
@@ -71,7 +77,7 @@ namespace PrimeEwsi.Controllers
                 Environment = packModel.TestEnvironment,
                 Files = packModel.Files,
                 Projects = packModel.ProjectId,
-                Teets = packModel.Teets.First(),
+                Teets = packModel.Teets,
                 UserId = GetUserModel().Id
             });
 
@@ -208,7 +214,7 @@ namespace PrimeEwsi.Controllers
                 system = "PRIME",
                 TestEnvironment = packModel.TestEnvironment,
                 IchangeProjects = new List<string> { packModel.ProjectId }.ToArray(),
-                ResolvedIssues = packModel.Teets.ToArray(),
+                ResolvedIssues = packModel.Teets.Split(','),
                 DeploymentComponent = new DeploymentPackageDeploymentComponent[1] { dc }
             });
 
