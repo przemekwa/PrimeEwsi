@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using PrimeEwsi.Models;
@@ -27,7 +28,7 @@ namespace PrimeEwsi.Controllers
    // GET: Create
         public ActionResult Create()
         {
-            var userModel = GetUserModel();
+            UserModel userModel = GetUserModel();
 
 
             if (userModel == null)
@@ -65,36 +66,41 @@ namespace PrimeEwsi.Controllers
         }
 
         [HttpPost]
-        [MultipleButton(Name = "action", Argument = "Download")]
-        public ActionResult Download(PackModel packModel)
+        [MultipleButtonAttribute(Name = "action", Argument = "Download")]
+        public ActionResult Add(PackModel packModel)
         {
-            var userModel = GetUserModel();
-
-            var zipFileInfo = GetPack(packModel, userModel);
+            UserModel userModel = GetUserModel();
+            FileInfo zipFileInfo = GetPack(packModel, userModel);
 
             return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
         }
 
         [HttpPost]
-        [MultipleButton(Name = "action", Argument = "Send")]
+        [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-            var userModel = GetUserModel();
-            var zipFileInfo = GetPack(packModel, userModel);
+            UserModel userModel = GetUserModel();
 
+            FileInfo zipFileInfo = GetPack(packModel, userModel);
+
+            var respose = SendUsingWebClient(zipFileInfo);
+
+            //respose = SendUsingRestSharp(zipFileInfo);
+
+            return View("Send", respose);
+        }
+
+        private static string SendUsingRestSharp(FileInfo zipFileInfo)
+        {
             var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
 
             var cookieJar = new CookieContainer();
 
-            var restClient = new RestClient("https://wro2096v.centrala.bzwbk:9999/artifactory/")
-            {
-                Authenticator = new HttpBasicAuthenticator("127356", "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN"),
-                CookieContainer = cookieJar
-            };
+            var restClient = new RestClient("https://wro2096v.centrala.bzwbk:9999/artifactory/");
 
+            var request = new RestRequest("/bzwbk-tmp/BZWBK/PRIME/a.zip", Method.PUT);
+            request.AddHeader("X-JFrog-Art-Api", "AKCp2V6TkLa2d6bQ2Pxjoou8Uv4kB74QHdhznhaXs62GibJqU74wdjQMRYbGRL2h9p8mHA4A1");
 
-            var request = new RestRequest("/bzwbk-tmp/BZWBK/PRIME/", Method.PUT);
-            request.AddHeader("Content-Type", "application/zip");
             request.AddHeader("Content-Disposition",
                 string.Format("file; filename=\"{0}\"; documentid={1}; fileExtension=\"{2}\"",
                 Path.GetFileNameWithoutExtension(zipFileInfo.Name), "1", Path.GetExtension(zipFileInfo.Name)));
@@ -102,41 +108,28 @@ namespace PrimeEwsi.Controllers
 
 
 
-            //request.AddFile("a.zip", zipFileInfo.FullName, "application/zip");
-                
-            
+            request.AddFile("a.zip", zipFileInfo.FullName, "application/zip");
+
+
             var resonse = restClient.Execute(request);
+            return resonse.Content;
+        }
 
-            
+        private static string SendUsingWebClient(FileInfo zipFileInfo)
+        {
+            using (var client = new WebClient())
+            {
+                client.Headers.Add("X-JFrog-Art-Api",
+                    "AKCp2V6TkLa2d6bQ2Pxjoou8Uv4kB74QHdhznhaXs62GibJqU74wdjQMRYbGRL2h9p8mHA4A1");
 
-            //var client = new HttpClient();
-            //client.DefaultRequestHeaders.Add("X-Auth_User", "127356");
-            //client.DefaultRequestHeaders.Add("X-Auth-Key", "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN");
-            
-            //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/pjpeg"));
-            
-            //var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
+                var resultByte = client.UploadFile(
+                    new Uri("https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/a.zip"), "PUT",
+                    zipFileInfo.FullName);
 
-            //var ms = new MemoryStream(bytes);
-
-            //client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("image/pjpeg"));
-            //var content = new StreamContent(ms);
+                return Encoding.UTF8.GetString(resultByte);
+            }
 
 
-            //var response =
-            //    client.PutAsync("https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/", content)
-            //        .Result;
-
-            
-
-            return View("Send", "sds");
-
-            //using (var streamReader = new StreamReader(response.GetResponseStream()))
-            //{
-            //    var answer = streamReader.ReadToEnd();
-
-                
-            //}
         }
 
         private FileInfo GetPack(PackModel packModel, UserModel userModel)
