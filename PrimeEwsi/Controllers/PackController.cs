@@ -21,14 +21,12 @@ namespace PrimeEwsi.Controllers
     public class PackController : Controller
     {
 
-        public string ServerPath { get; } = System.Web.HttpContext.Current.Server.MapPath("~");
-
         public PrimeEwsiContext PrimeEwsiContext { get; set; } = new PrimeEwsiContext();
 
    // GET: Create
         public ActionResult Create()
         {
-            UserModel userModel = GetUserModel();
+            var userModel = GetUserModel();
 
 
             if (userModel == null)
@@ -69,8 +67,8 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Add(PackModel packModel)
         {
-            UserModel userModel = GetUserModel();
-            FileInfo zipFileInfo = GetPack(packModel, userModel);
+            var userModel = GetUserModel();
+            var zipFileInfo = GetPack(packModel, userModel);
 
             return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
         }
@@ -79,9 +77,9 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-            UserModel userModel = GetUserModel();
+            var userModel = GetUserModel();
 
-            FileInfo zipFileInfo = GetPack(packModel, userModel);
+            var zipFileInfo = GetPack(packModel, userModel);
 
             var respose = SendUsingWebClient(zipFileInfo);
 
@@ -90,7 +88,7 @@ namespace PrimeEwsi.Controllers
             return View("Send", respose);
         }
 
-        private static string SendUsingRestSharp(FileInfo zipFileInfo)
+        private static string SendUsingRestSharp(FileSystemInfo zipFileInfo)
         {
             var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
 
@@ -115,7 +113,7 @@ namespace PrimeEwsi.Controllers
             return resonse.Content;
         }
 
-        private static string SendUsingWebClient(FileInfo zipFileInfo)
+        private static string SendUsingWebClient(FileSystemInfo zipFileInfo)
         {
             using (var client = new WebClient())
             {
@@ -134,16 +132,30 @@ namespace PrimeEwsi.Controllers
 
         private FileInfo GetPack(PackModel packModel, UserModel userModel)
         {
+            var pathToFolderWithUserPack = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~"), "Pack", userModel.Name, packModel.Component);
+
+            if (Directory.Exists(pathToFolderWithUserPack))
+            {
+                Directory.Delete(pathToFolderWithUserPack, true);
+            }
+
+            Directory.CreateDirectory(pathToFolderWithUserPack);
+
+
             var svnUrls =
-                            packModel.Files.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).Select(d => new SqlFile
-                            {
-                                Name = d.Substring(d.LastIndexOf("/") + 1),
-                                URL = d
-                            });
+                packModel.Files.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Select(d => new SqlFile
+                {
+                    Name = d.Substring(d.LastIndexOf("/") + 1),
+                    URL = d
+                });
 
-            var nc = new NetworkCredential { UserName = userModel.SvnUser, Password = userModel.SvnPassword };
+            var nc = new NetworkCredential
+            {
+                UserName = userModel.SvnUser,
+                Password = userModel.SvnPassword
+            };
 
-            var listOfLiles = svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, this.ServerPath)).ToList();
+            var listOfLiles = svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, pathToFolderWithUserPack)).ToList();
 
             var dc = new DeploymentPackageDeploymentComponent
             {
@@ -158,7 +170,8 @@ namespace PrimeEwsi.Controllers
                 }
             };
 
-            Helper.Manifestfilename = Path.Combine(this.ServerPath, "metafile.xml");
+
+            Helper.Manifestfilename = Path.Combine(pathToFolderWithUserPack, "metafile.xml");
 
             var xmlFile = Helper.SaveXml(new DeploymentPackage
             {
@@ -173,7 +186,7 @@ namespace PrimeEwsi.Controllers
             listOfLiles.Add(xmlFile);
 
             var zipFileInfo =
-                new FileInfo(Path.Combine(this.ServerPath, $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip"));
+                new FileInfo(Path.Combine(pathToFolderWithUserPack, $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip"));
 
             Helper.CreateZipFile(listOfLiles, zipFileInfo.FullName);
 

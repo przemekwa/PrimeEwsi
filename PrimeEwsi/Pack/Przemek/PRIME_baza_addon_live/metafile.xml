@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" provider="BZWBK" system="PRIME">
-  <DeploymentComponent Name="AddonLive">
+  <TestEnvironment>ZT001 - POZPP07</TestEnvironment>
+  <DeploymentComponent name="PRIME_baza_addon_live">
     <Version>
-      <Name>91094ff5-b16a-4683-8745-b43dd29e2d90</Name>
-      <Type>Full</Type>
+      <name>59</name>
+      <type>Full</type>
       <FileList>
         <FileName>wbk_create_fee.sql</FileName>
       </FileList>
     </Version>
   </DeploymentComponent>
   <ResolvedIssues>
-    <TKey>Teest1</TKey>
+    <TKey>Teet-34353</TKey>
   </ResolvedIssues>
   <IchangeProjects>
-    <Pname>67567</Pname>
+    <Pname>Production Operations</Pname>
   </IchangeProjects>
 </DeploymentPackage>
