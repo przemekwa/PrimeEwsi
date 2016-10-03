@@ -20,26 +20,27 @@
             <table>
                 <tr >
                     <td>Teets</td>
-                    <td> @Html.EditorFor(m => m.Teets) </td>
+                    <td>
+                         @Html.EditorFor(m => m.Teets) <a href="#" onclick="AddText(this)">Teet-33535</a>
+                    </td>
                 </tr>
                 <tr>
                     <td>Component</td>
-                    <td>@Html.DropDownListFor(m=>m.Component, new List<SelectListItem>()
-                   {
-                       new SelectListItem
-                       {
-                       Value = "PRIME_baza_addon_live",
-                       Text = "Baza Addon Live"
-                   },
-                       new SelectListItem { Value = "PRIME_baza_wbk20", Text = "Baza Wbk 2.0" } }) </td>
+                    <td>
+                        @Html.EditorFor(m => m.Component) <a href="#" onclick='AddComponent("PRIME_baza_addon_live")'>AddonLive</a> <a href="#" onclick='AddComponent("PRIME_baza_wbk20")'>Wbk20</a>
+                    </td>
                 </tr>
                 <tr>
                     <td>Projects</td>
-                    <td>@Html.EditorFor(m => m.ProjectId)</td>
+                    <td>
+                        @Html.EditorFor(m => m.ProjectId)
+                    </td>
                 </tr>
                 <tr>
                     <td>Test environment</td>
-                    <td>@Html.EditorFor(m => m.TestEnvironment)</td>
+                    <td>
+                        @Html.EditorFor(m => m.TestEnvironment)
+                    </td>
                 </tr>
 
                 <tr>

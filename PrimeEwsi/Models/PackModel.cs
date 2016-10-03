@@ -12,18 +12,14 @@ namespace PrimeEwsi.Models
     public class PackModel : UserModel
     {
         public IEnumerable<string> Teets { get; set; }
-
       
         public string ProjectId { get; set; }
-
       
         public string Files { get; set; }
 
         public string Component { get; set; }
 
         public string TestEnvironment { get; set; }
-
-        
 
         public PackModel()
         {

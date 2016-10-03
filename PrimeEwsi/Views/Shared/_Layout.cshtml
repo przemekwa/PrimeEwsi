@@ -8,39 +8,56 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <script type="text/javascript">
+        function AddText(param1) {
+            var teetElement = document.getElementById("Teets_0_");
+            if (teetElement.value === "") {
+                teetElement.value = param1.innerHTML;
+            } else {
+                teetElement.value += "," + param1.innerHTML;
+            }
+        }
+
+        function AddComponent(componentText) {
+            var componentElement = document.getElementById("Component");
+            componentElement.value = componentText;
+        }
+
+    </script>
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a style="font-size: 22px" href="~/Pack/Create"> <i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i></a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a style="font-size: 22px" href="~/Register/Edit">Witaj, @Model.Name <i class="fa fa-user fa-fw" aria-hidden="true"></i></a></li>
-                </ul>
-            </div>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a style="font-size: 22px" href="~/Pack/Create"> <i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="font-size: 22px" href="~/Register/Edit">Witaj, @Model.Name <i class="fa fa-user fa-fw" aria-hidden="true"></i></a></li>
+            </ul>
         </div>
     </div>
+</div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>@DateTime.Now.Year - Prime EWSI</p>
-        </footer>
-    </div>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>@DateTime.Now.Year - Prime EWSI</p>
+    </footer>
+</div>
 
-   
-    <script src="~/Scripts/bootstrap.min.js"></script>
-   
+
+<script src="~/Scripts/bootstrap.min.js"></script>
+
 </body>
 </html>

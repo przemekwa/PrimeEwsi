@@ -63,6 +63,21 @@ namespace PrimeEwsi.Controllers
             this.PrimeEwsiContext.SaveChanges();
         }
 
+        public void AddPackToHistory(PackModel packModel)
+        {
+            this.PrimeEwsiContext.PackCollection.Add(new Pack
+            {
+                Component = packModel.Component,
+                Environment = packModel.TestEnvironment,
+                Files = packModel.Files,
+                Projects = packModel.ProjectId,
+                Teets = packModel.Teets.First(),
+                UserId = GetUserModel().Id
+            });
+
+            this.PrimeEwsiContext.SaveChanges();
+        }
+
         [HttpPost]
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Add(PackModel packModel)
@@ -78,6 +93,8 @@ namespace PrimeEwsi.Controllers
         public ActionResult Send(PackModel packModel)
         {
             var userModel = GetUserModel();
+
+          //  GetString();
 
             var zipFileInfo = GetPack(packModel, userModel);
 
@@ -113,10 +130,22 @@ namespace PrimeEwsi.Controllers
             return resonse.Content;
         }
 
+        private void GetString()
+        {
+            var client = new WebClient();
+
+            var response = client.DownloadString("https://wro2096v.centrala.bzwbk:9999/artifactory/api/build");
+
+
+
+        }
+
         private static string SendUsingWebClient(FileSystemInfo zipFileInfo)
         {
             using (var client = new WebClient())
             {
+                client.Credentials = new NetworkCredential("127356", "*#znowuwrzesien2");
+
                 client.Headers.Add("X-JFrog-Art-Api",
                     "AKCp2V6TkLa2d6bQ2Pxjoou8Uv4kB74QHdhznhaXs62GibJqU74wdjQMRYbGRL2h9p8mHA4A1");
 
@@ -199,6 +228,8 @@ namespace PrimeEwsi.Controllers
             Response.AppendHeader("Content-Disposition", cd.ToString());
 
             this.UpdateVersion(packModel.Component);
+
+            AddPackToHistory(packModel);
 
             return zipFileInfo;
         }

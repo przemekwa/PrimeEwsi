@@ -12,6 +12,7 @@ namespace PrimeEwsi
     {
         public DbSet<UserModel> UsersModel { get; set; }
         public DbSet<ConfigModel> ConfigModel { get; set; }
+        public DbSet<Pack> PackCollection { get; set; }
 
         public PrimeEwsiContext() : base("primeEwsi")
         {
