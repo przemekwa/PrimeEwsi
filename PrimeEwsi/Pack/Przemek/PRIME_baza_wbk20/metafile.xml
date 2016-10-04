@@ -3,8 +3,8 @@
   <TestEnvironment>ZT001 - POZPP07</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_wbk20">
     <Version>
-      <name>4</name>
-      <type>Full</type>
+      <name>6</name>
+      <type>Incremental</type>
       <FileList>
         <FileName>wbk_create_fee.sql</FileName>
       </FileList>

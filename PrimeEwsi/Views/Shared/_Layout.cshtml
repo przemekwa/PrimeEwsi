@@ -9,19 +9,20 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
     <script type="text/javascript">
-        function AddText(param1) {
-            var teetElement = document.getElementById("Teets");
-            if (teetElement.value === "") {
-                teetElement.value = param1.innerHTML;
+        function AddText(elementName, value) {
+            var element = document.getElementById(elementName);
+            if (element.value === "") {
+                element.value = value;
             } else {
-                teetElement.value += "," + param1.innerHTML;
+                element.value += "," + value;
             }
         }
 
-        function AddComponent(componentText) {
-            var componentElement = document.getElementById("Component");
-            componentElement.value = componentText;
+        function UpdateText(elementName, value) {
+            var element = document.getElementById(elementName);
+           element.value = value;
         }
+       
 
     </script>
 </head>

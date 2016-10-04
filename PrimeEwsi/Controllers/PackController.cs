@@ -28,7 +28,6 @@ namespace PrimeEwsi.Controllers
         {
             var userModel = GetUserModel();
 
-
             if (userModel == null)
             {
                 return RedirectToAction("New", "Register");
@@ -38,7 +37,7 @@ namespace PrimeEwsi.Controllers
             
             return View(new PackModel(userModel)
             {
-                HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id)
+                HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id),
                 Teets = "Teet-34353",
                 TestEnvironment = "ZT001 - POZPP07",
                 Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
@@ -94,6 +93,33 @@ namespace PrimeEwsi.Controllers
         public ActionResult Send(PackModel packModel)
         {
             var userModel = GetUserModel();
+
+            if (string.IsNullOrEmpty(packModel.Component))
+            {
+                this.ModelState.AddModelError("Błąd", "Pole [Component] - uzupełnij komponent");
+            }
+
+            if (string.IsNullOrEmpty(packModel.Teets))
+            {
+                this.ModelState.AddModelError("Błąd", "Pole [Teets] - uzupełnij teet-y");
+            }
+
+            if (string.IsNullOrEmpty(packModel.ProjectId))
+            {
+                this.ModelState.AddModelError("Błąd", "Pole [Projects] - uzupełnij projekty");
+            }
+
+
+            if (!this.ModelState.IsValid)
+            {
+                packModel.Name = userModel.Name;
+
+                packModel.HistoryPackCollection =
+                    this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id);
+                return View("Create", packModel);
+            }
+
+          
 
             var zipFileInfo = GetPack(packModel, userModel);
 

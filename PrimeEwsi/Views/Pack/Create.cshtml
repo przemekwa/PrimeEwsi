@@ -18,46 +18,102 @@
             @Html.ValidationSummary()
 
             <table>
-                <tr >
+                <tr>
                     <td>Teets</td>
                     <td>
-                        @Html.EditorFor(m => m.Teets)
+                        <div class="ComponentPack">
+                            @Html.EditorFor(m => m.Teets)
+                            <i class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i>
+                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m=>m.Teets).Take(2))
+                            {
+                                <a href="#" onclick='AddText("Teets", "@pack.Key")'>@pack.Key</a>
+                            }
 
-                        @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).Take(3))
-                        {
-                        <a href="#" onclick="AddText(this)">@pack.Teets</a>
-                        }
-                        
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>Component</td>
                     <td>
-                        @Html.EditorFor(m => m.Component) <a href="#" onclick='AddComponent("PRIME_baza_addon_live")'>AddonLive</a> <a href="#" onclick='AddComponent("PRIME_baza_wbk20")'>Wbk20</a>
+                        <div class="ComponentPack">
+                          
+
+                            <div class="dropdown">
+                                @Html.EditorFor(m => m.Component)
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                    Components
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_wbk20")'>WBK20</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_addon_live")'>AddonLive</a> 
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <td>Projects</td>
                     <td>
-                        @Html.EditorFor(m => m.ProjectId)
+                        <div class="ComponentPack">
+                            @Html.EditorFor(m => m.ProjectId)
+
+                            <i class="fa fa-trash-o fw" onclick='UpdateText("ProjectId", "")' aria-hidden="true"></i>
+
+                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m=>m.Projects).Take(2))
+                            {
+                                <a href="#" onclick='AddText("ProjectId", "@pack.Key")'>@pack.Key</a>
+                            }
+                        </div>
                     </td>
+      
                 </tr>
-                <tr>
-                    <td>Test environment</td>
-                    <td>
-                        @Html.EditorFor(m => m.TestEnvironment)
-                    </td>
-                </tr>
+            <tr>
+                <td>Test environment</td>
+                <td>
+                    <div class="ComponentPack">
+
+                        <div class="dropdown">
+                            @Html.EditorFor(m => m.TestEnvironment)
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                Environment
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#" onclick='
+                                       UpdateText("TestEnvironment", "ZT001 - POZPP07" )'>ZT001</a>
+                                </li>
+                                <li><a href="#" onclick='UpdateText("TestEnvironment", "ZT002 - POZST04")'>ZT002</a></li>
+                                <li><a href="#" onclick='UpdateText("TestEnvironment", "ZT004 - POZST04")'>ZT004</a></li>
+
+
+
+                            </ul>
+                        </div>
+
+                        @*@foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).Take(3))
+                            {
+                                <a href="#" onclick='UpdateText("TestEnvironment", "@pack.Environment")'>@pack.Environment</a>
+                            }*@
+                    </div>
+                </td>
+            </tr>
 
                 <tr>
                     <td>Files</td>
-                    <td>@Html.TextAreaFor(m => m.Files, new{ @rows=10, @cols=300}) </td>
+                    <td>@Html.TextAreaFor(m => m.Files, new { @rows = 10, @cols = 300 }) </td>
                 </tr>
 
             </table>
 
-            <input type="submit" value="Download" name="action:Download"/>
-            <input type="submit" value="Send IVEC" name="action:Send"/>
+                <input type="submit" value="Download" name="action:Download" />
+                <input type="submit" value="Send IVEC" name="action:Send" />
 
         }
     </div>
