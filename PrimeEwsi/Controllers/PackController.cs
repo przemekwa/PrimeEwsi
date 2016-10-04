@@ -40,7 +40,7 @@ namespace PrimeEwsi.Controllers
                 HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id),
                 Teets = "Teet-34353",
                 TestEnvironment = "ZT001 - POZPP07",
-                Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
+                Files = new List<string>() {  "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"},
                 ProjectId = "Production Operations"
 
             });
@@ -69,7 +69,7 @@ namespace PrimeEwsi.Controllers
             {
                 Component = packModel.Component,
                 Environment = packModel.TestEnvironment,
-                Files = packModel.Files,
+                //Files = packModel.Files.,
                 Projects = packModel.ProjectId,
                 Teets = packModel.Teets,
                 UserId = GetUserModel().Id
@@ -150,7 +150,7 @@ namespace PrimeEwsi.Controllers
 
 
             var svnUrls =
-                packModel.Files.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries).Select(d => new SqlFile
+                packModel.Files.ToArray().Select(d => new SqlFile
                 {
                     Name = d.Substring(d.LastIndexOf("/") + 1),
                     URL = d

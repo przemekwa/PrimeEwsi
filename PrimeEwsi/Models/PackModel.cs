@@ -17,7 +17,7 @@ namespace PrimeEwsi.Models
       
         public string ProjectId { get; set; }
       
-        public string Files { get; set; }
+        public List<string> Files { get; set; } = new List<string>();
 
         public string Component { get; set; }
 

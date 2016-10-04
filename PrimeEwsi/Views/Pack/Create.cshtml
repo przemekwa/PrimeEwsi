@@ -2,15 +2,21 @@
 
 @{
     ViewBag.Title = "Download the full pack";
-
 }
 
+<script>
+
+  
+
+</script>
 <h2>Create pack</h2>
 
 <div class="panel panel-primary" style="width: 70%; margin-top: 20px">
+    
     <div class="panel-heading">
         <h3 class="panel-title">Add Pack</h3>
     </div>
+
     <div class="panel-body">
 
         @using (Html.BeginForm())
@@ -76,7 +82,7 @@
             <tr>
                 <td>Test environment</td>
                 <td>
-                    <div class="ComponentPack">
+                   <div class="ComponentPack">
 
                         <div class="dropdown">
                             @Html.EditorFor(m => m.TestEnvironment)
@@ -86,28 +92,32 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="#" onclick='
-                                       UpdateText("TestEnvironment", "ZT001 - POZPP07" )'>ZT001</a>
+                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT001 - POZPP07" )'>ZT001</a>
                                 </li>
-                                <li><a href="#" onclick='UpdateText("TestEnvironment", "ZT002 - POZST04")'>ZT002</a></li>
-                                <li><a href="#" onclick='UpdateText("TestEnvironment", "ZT004 - POZST04")'>ZT004</a></li>
-
-
-
+                                <li>
+                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT002 - POZST04")'>ZT002</a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT004 - POZST04")'>ZT004</a>
+                                </li>
                             </ul>
                         </div>
-
-                        @*@foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).Take(3))
-                            {
-                                <a href="#" onclick='UpdateText("TestEnvironment", "@pack.Environment")'>@pack.Environment</a>
-                            }*@
                     </div>
                 </td>
             </tr>
 
                 <tr>
                     <td>Files</td>
-                    <td>@Html.TextAreaFor(m => m.Files, new { @rows = 10, @cols = 300 }) </td>
+                    <td>
+                        <div class="ComponentPack">
+                            <div id="files">
+                               
+                            </div>
+                            <input style="margin-top: 10px" class="text-box single-line" id="FilesInput" name="FilesInput" type="text" value="" />
+                            <i class="fa fa-trash-o fw" onclick='UpdateInnerHTML("files")' aria-hidden="true"></i> <a href="#" onclick='AddFile()'> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add</a>
+                        </div>
+                    </td>
+
                 </tr>
 
             </table>
@@ -118,7 +128,3 @@
         }
     </div>
 </div>
-
-
-
-
