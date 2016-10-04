@@ -20,10 +20,8 @@ namespace PrimeEwsi.Controllers
 {
     public class PackController : Controller
     {
-
         public PrimeEwsiContext PrimeEwsiContext { get; set; } = new PrimeEwsiContext();
 
-   // GET: Create
         public ActionResult Create()
         {
             var userModel = GetUserModel();
@@ -69,7 +67,7 @@ namespace PrimeEwsi.Controllers
             {
                 Component = packModel.Component,
                 Environment = packModel.TestEnvironment,
-                //Files = packModel.Files.,
+                Files = string.Join(",", packModel.Files),
                 Projects = packModel.ProjectId,
                 Teets = packModel.Teets,
                 UserId = GetUserModel().Id
@@ -83,6 +81,17 @@ namespace PrimeEwsi.Controllers
         public ActionResult Add(PackModel packModel)
         {
             var userModel = GetUserModel();
+          
+            if (Validate(packModel, userModel))
+            {
+                packModel.Name = userModel.Name;
+
+                packModel.HistoryPackCollection =
+                    this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id);
+
+                return View("Create", packModel);
+            }
+
             var zipFileInfo = GetPack(packModel, userModel);
 
             return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
@@ -92,7 +101,37 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-            var userModel = GetUserModel();
+            var userModel = this.GetUserModel();
+
+            if (Validate(packModel, userModel))
+            {
+                packModel.Name = userModel.Name;
+
+                packModel.HistoryPackCollection =
+                    this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id);
+
+                return View("Create", packModel);
+            }
+
+            var zipFileInfo = GetPack(packModel, userModel);
+
+            using (var client = new WebClient())
+            {
+                var skp = userModel.Skp.Substring(9);
+
+                client.Credentials = new NetworkCredential(skp, userModel.ApiKey);
+
+                var resultByte = client.UploadFile(
+                    new Uri($"https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/{zipFileInfo.Name}.zip"), "PUT",
+                    zipFileInfo.FullName);
+
+                return View("Send", Encoding.UTF8.GetString(resultByte));
+            }
+        }
+
+        private bool Validate(PackModel packModel, UserModel userModel)
+        {
+            userModel = GetUserModel();
 
             if (string.IsNullOrEmpty(packModel.Component))
             {
@@ -109,32 +148,7 @@ namespace PrimeEwsi.Controllers
                 this.ModelState.AddModelError("Błąd", "Pole [Projects] - uzupełnij projekty");
             }
 
-
-            if (!this.ModelState.IsValid)
-            {
-                packModel.Name = userModel.Name;
-
-                packModel.HistoryPackCollection =
-                    this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id);
-                return View("Create", packModel);
-            }
-
-          
-
-            var zipFileInfo = GetPack(packModel, userModel);
-
-            using (var client = new WebClient())
-            {
-                var skp = userModel.Skp.Substring(9);
-
-                client.Credentials = new NetworkCredential(skp, userModel.ApiKey);
-
-                var resultByte = client.UploadFile(
-                    new Uri($"https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/{zipFileInfo.Name}.zip"), "PUT",
-                    zipFileInfo.FullName);
-
-                return View("Send", Encoding.UTF8.GetString(resultByte));
-            }
+            return !this.ModelState.IsValid;
         }
 
         private FileInfo GetPack(PackModel packModel, UserModel userModel)
