@@ -28,13 +28,20 @@ namespace PrimeEwsi.Models
             
         }
 
+       
         public PackModel(UserModel userModel)
+        {
+            InitUser(userModel);
+        }
+
+        public void InitUser(UserModel userModel)
         {
             this.Id = userModel.Id;
             this.Name = userModel.Name;
             this.Skp = userModel.Skp;
             this.SvnPassword = userModel.SvnPassword;
             this.SvnUser = userModel.SvnUser;
+            this.ApiKey = userModel.ApiKey;
         }
     }
 }

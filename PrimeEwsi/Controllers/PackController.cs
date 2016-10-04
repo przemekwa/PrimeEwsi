@@ -22,6 +22,8 @@ namespace PrimeEwsi.Controllers
     {
         public PrimeEwsiContext PrimeEwsiContext { get; set; } = new PrimeEwsiContext();
 
+        public PackApi PackApi { get; set; } = new PackApi(new PrimeEwsiContext(), new UrbanCodeMetaFIleApi());
+
         public ActionResult Create()
         {
             var userModel = GetUserModel();
@@ -31,68 +33,43 @@ namespace PrimeEwsi.Controllers
                 return RedirectToAction("New", "Register");
             }
 
-            var random = new Random();
-            
             return View(new PackModel(userModel)
             {
-                HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id),
-                Teets = "Teet-34353",
-                TestEnvironment = "ZT001 - POZPP07",
-                Files = new List<string>() {  "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"},
-                ProjectId = "Production Operations"
-
+                HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id)
+                //Teets = "Teet-34353",
+                //TestEnvironment = "ZT001 - POZPP07",
+                //Files =
+                //    new List<string>()
+                //    {
+                //        "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"
+                //    },
             });
         }
 
-        private UserModel GetUserModel()
-        {
-            var userSkp = this.HttpContext.User.Identity.Name;
 
-            var userModel = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
-            return userModel;
-        }
-
-        public void UpdateVersion(string component)
-        {
-            var configModel = this.PrimeEwsiContext.ConfigModel.SingleOrDefault(m => m.Component == component);
-
-            configModel.Version = configModel.Version+1;
-
-            this.PrimeEwsiContext.SaveChanges();
-        }
-
-        public void AddPackToHistory(PackModel packModel)
-        {
-            this.PrimeEwsiContext.PackCollection.Add(new Pack
-            {
-                Component = packModel.Component,
-                Environment = packModel.TestEnvironment,
-                Files = string.Join(",", packModel.Files),
-                Projects = packModel.ProjectId,
-                Teets = packModel.Teets,
-                UserId = GetUserModel().Id
-            });
-
-            this.PrimeEwsiContext.SaveChanges();
-        }
 
         [HttpPost]
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Add(PackModel packModel)
         {
-            var userModel = GetUserModel();
-          
-            if (Validate(packModel, userModel))
-            {
-                packModel.Name = userModel.Name;
+            packModel.InitUser(GetUserModel());
 
-                packModel.HistoryPackCollection =
-                    this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id);
+            if (Validate(packModel))
+            {
+                packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
 
                 return View("Create", packModel);
             }
 
-            var zipFileInfo = GetPack(packModel, userModel);
+            var zipFileInfo = this.PackApi.CreatePackFile(packModel);
+
+            var contentDisposition = new ContentDisposition
+            {
+                FileName = zipFileInfo.Name,
+                Inline = false,
+            };
+
+            Response.AppendHeader("Content-Disposition", contentDisposition.ToString());
 
             return File(System.IO.File.ReadAllBytes(zipFileInfo.FullName), MimeMapping.GetMimeMapping(zipFileInfo.Name));
         }
@@ -101,38 +78,31 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-            var userModel = this.GetUserModel();
+            packModel.InitUser(this.GetUserModel());
 
-            if (Validate(packModel, userModel))
+            if (Validate(packModel))
             {
-                packModel.Name = userModel.Name;
-
-                packModel.HistoryPackCollection =
-                    this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id);
+                packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
 
                 return View("Create", packModel);
             }
 
-            var zipFileInfo = GetPack(packModel, userModel);
+            var packFile = this.PackApi.CreatePackFile(packModel);
 
             using (var client = new WebClient())
             {
-                var skp = userModel.Skp.Substring(9);
-
-                client.Credentials = new NetworkCredential(skp, userModel.ApiKey);
+                client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), packModel.ApiKey);
 
                 var resultByte = client.UploadFile(
-                    new Uri($"https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/{zipFileInfo.Name}.zip"), "PUT",
-                    zipFileInfo.FullName);
+                    new Uri($"https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/{packFile.Name}.zip"), "PUT",
+                    packFile.FullName);
 
                 return View("Send", Encoding.UTF8.GetString(resultByte));
             }
         }
 
-        private bool Validate(PackModel packModel, UserModel userModel)
+        private bool Validate(PackModel packModel)
         {
-            userModel = GetUserModel();
-
             if (string.IsNullOrEmpty(packModel.Component))
             {
                 this.ModelState.AddModelError("Błąd", "Pole [Component] - uzupełnij komponent");
@@ -148,82 +118,21 @@ namespace PrimeEwsi.Controllers
                 this.ModelState.AddModelError("Błąd", "Pole [Projects] - uzupełnij projekty");
             }
 
+            if (string.IsNullOrEmpty(packModel.TestEnvironment))
+            {
+                this.ModelState.AddModelError("Błąd", "Pole [Environment] - uzupełnij środowisko");
+            }
+
             return !this.ModelState.IsValid;
         }
 
-        private FileInfo GetPack(PackModel packModel, UserModel userModel)
+        private UserModel GetUserModel()
         {
-            var pathToFolderWithUserPack = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~"), "Pack", userModel.Name, packModel.Component);
+            var userSkp = this.HttpContext.User.Identity.Name;
 
-            if (Directory.Exists(pathToFolderWithUserPack))
-            {
-                Directory.Delete(pathToFolderWithUserPack, true);
-            }
+            var userModel = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
 
-            Directory.CreateDirectory(pathToFolderWithUserPack);
-
-
-            var svnUrls =
-                packModel.Files.ToArray().Select(d => new SqlFile
-                {
-                    Name = d.Substring(d.LastIndexOf("/") + 1),
-                    URL = d
-                });
-
-            var nc = new NetworkCredential
-            {
-                UserName = userModel.SvnUser,
-                Password = userModel.SvnPassword
-            };
-
-            var listOfLiles = svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, pathToFolderWithUserPack)).ToList();
-
-            var dc = new DeploymentPackageDeploymentComponent
-            {
-
-                Name = packModel.Component,
-                Version = new DeploymentPackageDeploymentComponentVersion
-                {
-                    Name = this.PrimeEwsiContext.ConfigModel.Single(c => c.Component == packModel.Component).Version.ToString(),
-                    Type = "Incremental",
-                    Property = (new List<DeploymentPackageDeploymentComponentProperty>()).ToArray(),
-                    FileList = svnUrls.Select(d => d.Name).ToArray()
-                }
-            };
-
-
-            Helper.Manifestfilename = Path.Combine(pathToFolderWithUserPack, "metafile.xml");
-
-            var xmlFile = Helper.SaveXml(new DeploymentPackage
-            {
-                provider = "BZWBK",
-                system = "PRIME",
-                TestEnvironment = packModel.TestEnvironment,
-                IchangeProjects = new List<string> { packModel.ProjectId }.ToArray(),
-                ResolvedIssues = packModel.Teets.Split(','),
-                DeploymentComponent = new DeploymentPackageDeploymentComponent[1] { dc }
-            });
-
-            listOfLiles.Add(xmlFile);
-
-            var zipFileInfo =
-                new FileInfo(Path.Combine(pathToFolderWithUserPack, $"{packModel.Component}-{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss", CultureInfo.InvariantCulture)}.zip"));
-
-            Helper.CreateZipFile(listOfLiles, zipFileInfo.FullName);
-
-            var cd = new ContentDisposition
-            {
-                FileName = zipFileInfo.Name,
-                Inline = false,
-            };
-
-            Response.AppendHeader("Content-Disposition", cd.ToString());
-
-            this.UpdateVersion(packModel.Component);
-
-            AddPackToHistory(packModel);
-
-            return zipFileInfo;
+            return userModel;
         }
     }
 }
