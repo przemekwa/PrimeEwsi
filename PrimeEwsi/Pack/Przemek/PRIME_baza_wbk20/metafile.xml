@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" provider="BZWBK" system="PRIME">
-  <TestEnvironment>ZT002 - POZST04</TestEnvironment>
-  <DeploymentComponent name="PRIME_baza_addon_live">
+  <TestEnvironment>ZT001 - POZPP07</TestEnvironment>
+  <DeploymentComponent name="PRIME_baza_wbk20">
     <Version>
-      <name>72</name>
+      <name>4</name>
       <type>Full</type>
       <FileList>
         <FileName>wbk_create_fee.sql</FileName>

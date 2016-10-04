@@ -33,6 +33,7 @@ namespace PrimeEwsi.Controllers
             userDb.Name = userModel.Name;
             userDb.SvnUser = userModel.SvnUser;
             userDb.SvnPassword = userModel.SvnPassword;
+            userDb.ApiKey = userModel.ApiKey;
 
             this.PrimeEwsiContext.SaveChanges();
 

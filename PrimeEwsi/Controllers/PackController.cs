@@ -35,21 +35,16 @@ namespace PrimeEwsi.Controllers
             }
 
             var random = new Random();
-
-
+            
             return View(new PackModel(userModel)
             {
                 HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id)
+                Teets = "Teet-34353",
+                TestEnvironment = "ZT001 - POZPP07",
+                Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
+                ProjectId = "Production Operations"
+
             });
-
-            //return View(new PackModel(userModel)
-            //{
-            //    Teets = new List<string> { "Teet-34353" },
-            //    TestEnvironment = "ZT001 - POZPP07",
-            //    Files = "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql",
-            //    ProjectId = "Production Operations"
-
-            //});
         }
 
         private UserModel GetUserModel()
@@ -100,69 +95,20 @@ namespace PrimeEwsi.Controllers
         {
             var userModel = GetUserModel();
 
-          //  GetString();
-
             var zipFileInfo = GetPack(packModel, userModel);
 
-            var respose = SendUsingWebClient(zipFileInfo);
-
-            //respose = SendUsingRestSharp(zipFileInfo);
-
-            return View("Send", respose);
-        }
-
-        private static string SendUsingRestSharp(FileSystemInfo zipFileInfo)
-        {
-            var bytes = System.IO.File.ReadAllBytes(zipFileInfo.FullName);
-
-            var cookieJar = new CookieContainer();
-
-            var restClient = new RestClient("https://wro2096v.centrala.bzwbk:9999/artifactory/");
-
-            var request = new RestRequest("/bzwbk-tmp/BZWBK/PRIME/a.zip", Method.PUT);
-            request.AddHeader("X-JFrog-Art-Api", "AKCp2V6TkLa2d6bQ2Pxjoou8Uv4kB74QHdhznhaXs62GibJqU74wdjQMRYbGRL2h9p8mHA4A1");
-
-            request.AddHeader("Content-Disposition",
-                string.Format("file; filename=\"{0}\"; documentid={1}; fileExtension=\"{2}\"",
-                Path.GetFileNameWithoutExtension(zipFileInfo.Name), "1", Path.GetExtension(zipFileInfo.Name)));
-            request.AddParameter("application/zip", bytes, ParameterType.RequestBody);
-
-
-
-            request.AddFile("a.zip", zipFileInfo.FullName, "application/zip");
-
-
-            var resonse = restClient.Execute(request);
-            return resonse.Content;
-        }
-
-        private void GetString()
-        {
-            var client = new WebClient();
-
-            var response = client.DownloadString("https://wro2096v.centrala.bzwbk:9999/artifactory/api/build");
-
-
-
-        }
-
-        private static string SendUsingWebClient(FileSystemInfo zipFileInfo)
-        {
             using (var client = new WebClient())
             {
-                client.Credentials = new NetworkCredential("127356", "*#znowuwrzesien2");
+                var skp = userModel.Skp.Substring(9);
 
-                client.Headers.Add("X-JFrog-Art-Api",
-                    "AKCp2V6TkLa2d6bQ2Pxjoou8Uv4kB74QHdhznhaXs62GibJqU74wdjQMRYbGRL2h9p8mHA4A1");
+                client.Credentials = new NetworkCredential(skp, userModel.ApiKey);
 
                 var resultByte = client.UploadFile(
-                    new Uri("https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/a.zip"), "PUT",
+                    new Uri($"https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/{zipFileInfo.Name}.zip"), "PUT",
                     zipFileInfo.FullName);
 
-                return Encoding.UTF8.GetString(resultByte);
+                return View("Send", Encoding.UTF8.GetString(resultByte));
             }
-
-
         }
 
         private FileInfo GetPack(PackModel packModel, UserModel userModel)
@@ -199,7 +145,7 @@ namespace PrimeEwsi.Controllers
                 Version = new DeploymentPackageDeploymentComponentVersion
                 {
                     Name = this.PrimeEwsiContext.ConfigModel.Single(c => c.Component == packModel.Component).Version.ToString(),
-                    Type = "Full",
+                    Type = "Incremental",
                     Property = (new List<DeploymentPackageDeploymentComponentProperty>()).ToArray(),
                     FileList = svnUrls.Select(d => d.Name).ToArray()
                 }
