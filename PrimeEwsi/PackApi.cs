@@ -51,7 +51,7 @@ namespace PrimeEwsi
                 system = "PRIME",
                 TestEnvironment = packModel.TestEnvironment,
                 IchangeProjects = new List<string> { packModel.ProjectId }.ToArray(),
-                ResolvedIssues = packModel.Teets.Split(','),
+                ResolvedIssues = packModel.Teets?.Split(','),
                 DeploymentComponent = new DeploymentPackageDeploymentComponent[1] { dc }
             });
 
@@ -89,7 +89,7 @@ namespace PrimeEwsi
         {
             var configModel = this.PrimeEwsiContext.ConfigModel.SingleOrDefault(m => m.Component == component);
 
-            configModel.Version = configModel.Version + 1;
+            configModel.Version = PrimeEwsi.Infrastructure.Helper.UpdateVersion(configModel.Version);
 
             this.PrimeEwsiContext.SaveChanges();
         }

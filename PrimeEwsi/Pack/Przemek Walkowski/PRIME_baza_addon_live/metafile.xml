@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" provider="BZWBK" system="PRIME">
-  <TestEnvironment>ZT004 - POZST04</TestEnvironment>
+  <TestEnvironment>ZT002 - POZST04</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_addon_live">
     <Version>
-      <name>89</name>
+      <name>0.0.0.5</name>
       <type>Incremental</type>
       <FileList>
-        <FileName>wbk_create_fee.sql</FileName>
+        <FileName>wbk_txn_import_cashback.sql</FileName>
       </FileList>
     </Version>
   </DeploymentComponent>
   <ResolvedIssues>
-    <TKey>Teet-32142</TKey>
+    <TKey>TEET-54643</TKey>
   </ResolvedIssues>
   <IchangeProjects>
     <Pname>Production Operations</Pname>

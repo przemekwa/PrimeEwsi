@@ -11,8 +11,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using PrimeEwsi.Models;
-using RestSharp;
-using RestSharp.Authenticators;
+
 using UrbanCodeMetaFileCreator;
 using UrbanCodeMetaFileCreator.Dto;
 
@@ -62,8 +61,6 @@ namespace PrimeEwsi.Controllers
             });
         }
 
-
-
         [HttpPost]
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Add(PackModel packModel)
@@ -107,13 +104,16 @@ namespace PrimeEwsi.Controllers
 
             using (var client = new WebClient())
             {
+#if DEBUG
+                client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN");
+#else
                 client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), packModel.ApiKey);
-
+#endif
                 var resultByte = client.UploadFile(new Uri($"{SERVERURL}{packFile.Name}"), "PUT", packFile.FullName);
-
+                  
                 packModel.SendModel = new SendModel
                 {
-                    Result = Encoding.UTF8.GetString(resultByte)
+                    Result = Helper.FormatJson(Encoding.UTF8.GetString(resultByte))
                 };
 
                 return View("Create", packModel);
@@ -125,11 +125,6 @@ namespace PrimeEwsi.Controllers
             if (string.IsNullOrEmpty(packModel.Component))
             {
                 this.ModelState.AddModelError("Błąd", "Pole [Component] - uzupełnij komponent");
-            }
-
-            if (string.IsNullOrEmpty(packModel.Teets))
-            {
-                this.ModelState.AddModelError("Błąd", "Pole [Teets] - uzupełnij teet-y");
             }
 
             if (string.IsNullOrEmpty(packModel.ProjectId))

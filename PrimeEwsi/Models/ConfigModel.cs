@@ -15,6 +15,6 @@ namespace PrimeEwsi.Models
         public int Id { get; set; }
 
         public string Component { get; set; }
-        public int Version { get; set; }
+        public string Version { get; set; }
    }
 }

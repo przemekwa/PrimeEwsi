@@ -3,13 +3,15 @@
   <TestEnvironment>ZT002 - POZST04</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_wbk20">
     <Version>
-      <name>8</name>
+      <name>0.0.0.2</name>
       <type>Incremental</type>
-      <FileList />
+      <FileList>
+        <FileName>wbk_txn_import_cashback.sql</FileName>
+      </FileList>
     </Version>
   </DeploymentComponent>
   <ResolvedIssues>
-    <TKey>Teet-34353</TKey>
+    <TKey>Teet-32142</TKey>
   </ResolvedIssues>
   <IchangeProjects>
     <Pname>Production Operations</Pname>
