@@ -154,9 +154,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Helper.cs" />
+    <Compile Include="Infrastructure\HandleErrorException.cs" />
     <Compile Include="Models\ConfigModel.cs" />
+    <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\Pack.cs" />
     <Compile Include="Models\PackModel.cs" />
+    <Compile Include="Models\SendModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="MultipleButtonAttribute.cs" />
     <Compile Include="PackApi.cs" />
@@ -169,8 +173,8 @@
     <Content Include="Views\Pack\Create.cshtml" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Register\Update.cshtml" />
-    <Content Include="Views\Pack\Send.cshtml" />
     <None Include="Views\Register\New.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

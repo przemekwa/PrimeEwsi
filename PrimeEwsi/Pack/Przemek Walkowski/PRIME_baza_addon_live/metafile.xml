@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" provider="BZWBK" system="PRIME">
+  <TestEnvironment>ZT004 - POZST04</TestEnvironment>
+  <DeploymentComponent name="PRIME_baza_addon_live">
+    <Version>
+      <name>89</name>
+      <type>Incremental</type>
+      <FileList>
+        <FileName>wbk_create_fee.sql</FileName>
+      </FileList>
+    </Version>
+  </DeploymentComponent>
+  <ResolvedIssues>
+    <TKey>Teet-32142</TKey>
+  </ResolvedIssues>
+  <IchangeProjects>
+    <Pname>Production Operations</Pname>
+  </IchangeProjects>
+</DeploymentPackage>

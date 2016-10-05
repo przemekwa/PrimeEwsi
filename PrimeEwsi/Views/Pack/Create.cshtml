@@ -11,6 +11,16 @@
 </script>
 <h2>Create pack</h2>
 
+@if (!string.IsNullOrEmpty(Model.SendModel?.Result))
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> @Model.SendModel.Result
+    </div>
+}
+
+
+
 <div class="panel panel-primary" style="width: 70%; margin-top: 20px">
     
     <div class="panel-heading">

@@ -16,17 +16,33 @@ using RestSharp.Authenticators;
 using UrbanCodeMetaFileCreator;
 using UrbanCodeMetaFileCreator.Dto;
 
+
 namespace PrimeEwsi.Controllers
 {
+    using Infrastructure;
+
+    [HandleErrorException]
     public class PackController : Controller
     {
-        public PrimeEwsiContext PrimeEwsiContext { get; set; } = new PrimeEwsiContext();
+        public PrimeEwsiContext PrimeEwsiContext { get; set; } 
 
-        public PackApi PackApi { get; set; } = new PackApi(new PrimeEwsiContext(), new UrbanCodeMetaFIleApi());
+        public PackApi PackApi { get; set; }
+
+#if DEBUG
+        private const string SERVERURL = "https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
+#else
+        private const string SERVERURL = "https://ewsi.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
+#endif
+
+        public PackController()
+        {
+            this.PrimeEwsiContext = new PrimeEwsiContext();
+            this.PackApi = new PackApi(new PrimeEwsiContext(), new UrbanCodeMetaFIleApi());
+        }
 
         public ActionResult Create()
         {
-            var userModel = GetUserModel();
+            var userModel = Helper.GetUserModel();
 
             if (userModel == null)
             {
@@ -52,7 +68,7 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Add(PackModel packModel)
         {
-            packModel.InitUser(GetUserModel());
+            packModel.InitUser(Helper.GetUserModel());
 
             if (Validate(packModel))
             {
@@ -78,12 +94,12 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-            packModel.InitUser(this.GetUserModel());
+            packModel.InitUser(Helper.GetUserModel());
 
+            packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
+            
             if (Validate(packModel))
             {
-                packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
-
                 return View("Create", packModel);
             }
 
@@ -93,11 +109,14 @@ namespace PrimeEwsi.Controllers
             {
                 client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), packModel.ApiKey);
 
-                var resultByte = client.UploadFile(
-                    new Uri($"https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/{packFile.Name}.zip"), "PUT",
-                    packFile.FullName);
+                var resultByte = client.UploadFile(new Uri($"{SERVERURL}{packFile.Name}"), "PUT", packFile.FullName);
 
-                return View("Send", Encoding.UTF8.GetString(resultByte));
+                packModel.SendModel = new SendModel
+                {
+                    Result = Encoding.UTF8.GetString(resultByte)
+                };
+
+                return View("Create", packModel);
             }
         }
 
@@ -124,15 +143,6 @@ namespace PrimeEwsi.Controllers
             }
 
             return !this.ModelState.IsValid;
-        }
-
-        private UserModel GetUserModel()
-        {
-            var userSkp = this.HttpContext.User.Identity.Name;
-
-            var userModel = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
-
-            return userModel;
         }
     }
 }

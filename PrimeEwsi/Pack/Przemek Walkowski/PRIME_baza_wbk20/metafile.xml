@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeploymentPackage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" provider="BZWBK" system="PRIME">
+  <TestEnvironment>ZT002 - POZST04</TestEnvironment>
+  <DeploymentComponent name="PRIME_baza_wbk20">
+    <Version>
+      <name>8</name>
+      <type>Incremental</type>
+      <FileList />
+    </Version>
+  </DeploymentComponent>
+  <ResolvedIssues>
+    <TKey>Teet-34353</TKey>
+  </ResolvedIssues>
+  <IchangeProjects>
+    <Pname>Production Operations</Pname>
+  </IchangeProjects>
+</DeploymentPackage>
