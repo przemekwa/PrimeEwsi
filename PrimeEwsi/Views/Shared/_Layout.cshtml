@@ -1,68 +1,18 @@
-﻿@model PrimeEwsi.Models.UserModel
+﻿@using System.Web.Optimization
+@model PrimeEwsi.Models.UserModel
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime EWSI</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
-    <link rel="stylesheet" href="~/Content/DataTables/css/jquery.dataTables.min.css">
-    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
-    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-        
-      
-
-            $(document)
-            .ready(function() {
-                $('#historyTable')
-                    .DataTable({
-                        "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
-                        "ordering": false
-                    });
-            });
+    
+    @Styles.Render("~/Content/css")
    
 
-        function AddText(elementName, value) {
-            var element = document.getElementById(elementName);
-            if (element.value === "") {
-                element.value = value;
-            } else {
-                element.value += "," + value;
-            }
-        }
-
-        function UpdateText(elementName, value) {
-            var element = document.getElementById(elementName);
-            element.value = value;
-        }
-
-        function UpdateInnerHTML(elementName) {
-            var element = document.getElementById(elementName);
-            element.innerHTML = "";
-        }
-
-        var index = 0;
-
-        function AddFile() {
-            var filesContainer = document.getElementById("files");
-            var fileInput = document.getElementById("FilesInput");
-
-            console.log(index);
-
-
-            if (fileInput.value === "") {
-                return;
-            }
-
-            filesContainer
-                .innerHTML += "<a target='_blank' href='" + fileInput.value + "'> " + fileInput.value + " <\a>" +
-                " <input class='text-box single-line' id='Files_" + index + "_' name='Files[" + index + "]' type='hidden' value='" + fileInput.value + "' /><br/>";
-            index++;
-        }
-    </script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+  
 </head>
 
 <body>
@@ -99,7 +49,7 @@
 
 
 
-<script src="~/Scripts/bootstrap.min.js"></script>
+
 
 </body>
 </html>

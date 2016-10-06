@@ -44,13 +44,6 @@ namespace PrimeEwsi.Controllers
             var model = new PackModel()
             {
                 HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
-                //Teets = "Teet-34353",
-                //TestEnvironment = "ZT001 - POZPP07",
-                //Files =
-                //    new List<string>()
-                //    {
-                //        "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"
-                //    },
             };
 
             model.SetUser(userModel);

@@ -1,46 +1,52 @@
-﻿@model PrimeEwsi.Models.HistoryModel
+﻿@using System.Web.Optimization
+@model PrimeEwsi.Models.HistoryModel
 
 @{
     ViewBag.Title = "History";
 }
+@Styles.Render("~/Content/css-dataTables")
+@Scripts.Render("~/bundles/dataTables")
+@Scripts.Render("~/bundles/view-history")
+
 
 <h2>History</h2>
 
-<table id="historyTable" class="display" style="width:100%">
+<table id="historyTable" class="display" style="width: 100%">
     <thead>
-        <tr>
-            <th>#</th>
-            <th>Teets</th>
-            <th>Component</th>
-            <th>Projects</th>
-            <th>Enviroment</th>
-            <th>Files</th>
-        </tr>
+    <tr>
+        <th>#</th>
+        <th>Teets</th>
+        <th>Component</th>
+        <th>Projects</th>
+        <th>Enviroment</th>
+        <th>Files</th>
+    </tr>
     </thead>
     <tbody>
 
 
-        @foreach (var p in Model.HistoryPackModelCollection)
-        {
-            <tr>
-                <td>
-                    @Html.ActionLink("Download", "Download", "Pack", new { @packId = @p.Id }, new { @class = "btn btn-primary btn-xs", @style= "margin: 3px" })
-                    @Html.ActionLink("Send IVEC", "CreateIvec", "Pack", new { @packId = @p.Id }, new { @class = "btn btn-primary btn-xs", @style = "margin: 3px" })
-                    
+    @foreach (var p in Model.HistoryPackModelCollection)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("Download", "Download", "Pack", new {@packId = @p.Id}, new {@class = "btn btn-primary btn-xs", @style = "margin: 3px"})
+                @Html.ActionLink("Send IVEC", "CreateIvec", "Pack", new {@packId = @p.Id}, new {@class = "btn btn-primary btn-xs", @style = "margin: 3px"})
 
-                </td>
-                <td>@p.Teets</td>
-                <td>@p.Component</td>
-                <td>@p.Projects</td>
-                <td>@p.Environment</td>
-                <td>
-                    @foreach (var s in p.Files.Split('|'))
-                    {
-                        <p>@s</p>
-                        }
 
-                </td>
-            </tr>
-        }
+            </td>
+            <td>@p.Teets</td>
+            <td>@p.Component</td>
+            <td>@p.Projects</td>
+            <td>@p.Environment</td>
+            <td>
+                @foreach (var s in p.Files.Split('|'))
+                {
+                    <p>@s</p>
+                }
+
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+

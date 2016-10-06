@@ -1,14 +1,12 @@
-﻿@model PrimeEwsi.Models.PackModel
+﻿@using System.Web.Optimization
+@model PrimeEwsi.Models.PackModel
 
 @{
     ViewBag.Title = "Download the full pack";
 }
 
-<script>
+@Scripts.Render("~/bundles/view-create")
 
-  
-
-</script>
 <h2>Create pack</h2>
 
 @if (!string.IsNullOrEmpty(Model.SendModel?.Result))

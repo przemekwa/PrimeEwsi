@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
@@ -35,6 +36,9 @@ namespace PrimeEwsi
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+          
 
             AppDomain.CurrentDomain.SetData("DataDirectory", HttpContext.Current.Server.MapPath("~"));
 

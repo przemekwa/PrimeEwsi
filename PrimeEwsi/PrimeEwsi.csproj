@@ -43,6 +43,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -94,6 +98,10 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -101,6 +109,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Razor">
@@ -301,6 +313,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\view-create.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap4.js" />
@@ -377,11 +390,13 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\view-history.js" />
     <Content Include="Web.config" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\PackController.cs" />
@@ -391,8 +406,8 @@
     </Compile>
     <Compile Include="Infrastructure\Helper.cs" />
     <Compile Include="Infrastructure\HandleErrorException.cs" />
-    <Compile Include="IPackApi.cs" />
-    <Compile Include="IPrimeEwsiDbApi.cs" />
+    <Compile Include="Infrastructure\PackApi\IPackApi.cs" />
+    <Compile Include="Infrastructure\DB\IPrimeEwsiDbApi.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />
@@ -400,10 +415,10 @@
     <Compile Include="Models\PackModel.cs" />
     <Compile Include="Models\SendModel.cs" />
     <Compile Include="Models\UserModel.cs" />
-    <Compile Include="MultipleButtonAttribute.cs" />
-    <Compile Include="PackApi.cs" />
-    <Compile Include="PrimeEwsiContext.cs" />
-    <Compile Include="PrimeEwsiDbApi.cs" />
+    <Compile Include="Infrastructure\MultipleButtonAttribute.cs" />
+    <Compile Include="Infrastructure\PackApi\PackApi.cs" />
+    <Compile Include="Infrastructure\DB\PrimeEwsiContext.cs" />
+    <Compile Include="Infrastructure\DB\PrimeEwsiDbApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
