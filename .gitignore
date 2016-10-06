@@ -6,6 +6,8 @@
 *.zip
 *.sql
 
+Content/DataTables
+Scripts/DataTables
 
 # User-specific files
 *.suo

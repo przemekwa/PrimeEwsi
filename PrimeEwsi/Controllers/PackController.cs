@@ -48,7 +48,7 @@ namespace PrimeEwsi.Controllers
                 return RedirectToAction("New", "Register");
             }
 
-            return View(new PackModel(userModel)
+            var model = new PackModel()
             {
                 HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id)
                 //Teets = "Teet-34353",
@@ -58,14 +58,38 @@ namespace PrimeEwsi.Controllers
                 //    {
                 //        "http://centralsourcesrepository/svn/svn7/trunk/OtherCS/IncomingsSln/SQL/wbk_create_fee.sql"
                 //    },
-            });
+            };
+
+            model.SetUser(userModel);
+
+            return View(model);
+        }
+
+        public ActionResult Download(int packId) => this.Add(GetPackModel(packId));
+
+        public ActionResult CreateIvec(int packId) => this.Send(GetPackModel(packId));
+
+        private PackModel GetPackModel(int packId)
+        {
+            var pack = this.PrimeEwsiContext.PackCollection.Single(p => p.Id == packId);
+
+            var packModel = new PackModel
+            {
+                Component = pack.Component,
+                ProjectId = pack.Projects,
+                Teets = pack.Teets,
+                TestEnvironment = pack.Environment,
+                Files = pack.Files.Split('|').ToList()
+            };
+
+            return packModel;
         }
 
         [HttpPost]
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Add(PackModel packModel)
         {
-            packModel.InitUser(Helper.GetUserModel());
+            packModel.SetUser(Helper.GetUserModel());
 
             if (Validate(packModel))
             {
@@ -91,7 +115,7 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult Send(PackModel packModel)
         {
-            packModel.InitUser(Helper.GetUserModel());
+            packModel.SetUser(Helper.GetUserModel());
 
             packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
             

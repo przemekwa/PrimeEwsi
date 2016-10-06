@@ -29,5 +29,15 @@ namespace PrimeEwsi.Models
 
         [Column("apikey")]
         public string ApiKey { get; set; }
+
+        public void SetUser(UserModel userModel)
+        {
+            this.Id = userModel.Id;
+            this.Name = userModel.Name;
+            this.Skp = userModel.Skp;
+            this.SvnPassword = userModel.SvnPassword;
+            this.SvnUser = userModel.SvnUser;
+            this.ApiKey = userModel.ApiKey;
+        }
     }
 }

@@ -76,7 +76,7 @@ namespace PrimeEwsi
             {
                 Component = packModel.Component,
                 Environment = packModel.TestEnvironment,
-                Files = string.Join(",", packModel.Files),
+                Files = string.Join("|", packModel.Files),
                 Projects = packModel.ProjectId,
                 Teets = packModel.Teets,
                 UserId = packModel.Id

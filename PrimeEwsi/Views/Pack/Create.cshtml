@@ -35,12 +35,20 @@
 
             <table>
                 <tr>
-                    <td>Teets</td>
                     <td>
                         <div class="ComponentPack">
-                            @Html.EditorFor(m => m.Teets)
+                            <div class="form-group">
+                                <label for="usr">Teets:</label>
+                                <input class="form-control" id="Teets" name="Teets" type="text" value="" />
+                            </div>
+
+                       
+
+                       
+
+
                             <i class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i>
-                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m=>m.Teets).Take(2))
+                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Teets).Take(2))
                             {
                                 <a href="#" onclick='AddText("Teets", "@pack.Key")'>@pack.Key</a>
                             }
@@ -49,13 +57,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Component</td>
                     <td>
                         <div class="ComponentPack">
-                          
-
                             <div class="dropdown">
-                                @Html.EditorFor(m => m.Component)
+                                <div class="form-group">
+                                    <label for="usr">Component:</label>
+                                    <input class="form-control" id="Component" name="Component" type="text" value=""/>
+                                </div>
+
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                                     Components
                                     <span class="caret"></span>
@@ -74,10 +83,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Projects</td>
                     <td>
                         <div class="ComponentPack">
-                            @Html.EditorFor(m => m.ProjectId)
+                            <div class="form-group">
+                                <label for="usr">Projects:</label>
+                                <input class="form-control" id="ProjectId" name="ProjectId" type="text" value="" />
+                            </div>
 
                             <i class="fa fa-trash-o fw" onclick='UpdateText("ProjectId", "")' aria-hidden="true"></i>
 
@@ -90,12 +101,14 @@
       
                 </tr>
             <tr>
-                <td>Test environment</td>
                 <td>
                    <div class="ComponentPack">
 
                         <div class="dropdown">
-                            @Html.EditorFor(m => m.TestEnvironment)
+                            <div class="form-group">
+                                <label for="usr">Test environment</label>
+                                <input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="" />
+                            </div>
                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                                 Environment
                                 <span class="caret"></span>
@@ -117,13 +130,18 @@
             </tr>
 
                 <tr>
-                    <td>Files</td>
                     <td>
                         <div class="ComponentPack">
                             <div id="files">
-                               
+
                             </div>
-                            <input style="margin-top: 10px" class="text-box single-line" id="FilesInput" name="FilesInput" type="text" value="" />
+
+                            <div class="form-group">
+                                <label for="usr">Files</label>
+                                <input style="margin-top: 10px" class="form-control" id="FilesInput" name="FilesInput" type="text" value="" />
+                            </div>
+
+                           
                             <i class="fa fa-trash-o fw" onclick='UpdateInnerHTML("files")' aria-hidden="true"></i> <a href="#" onclick='AddFile()'> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add</a>
                         </div>
                     </td>

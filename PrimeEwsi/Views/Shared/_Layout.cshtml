@@ -8,7 +8,21 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css"/>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="~/Content/DataTables/css/jquery.dataTables.min.css">
+    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
+        
+            $(document)
+            .ready(function() {
+                $('#historyTable')
+                    .DataTable({
+                        "lengthMenu": [[-1, 10, 25, 50], ["All", 10, 25, 50]],
+                        "ordering": false
+                    });
+            });
+   
+
         function AddText(elementName, value) {
             var element = document.getElementById(elementName);
             if (element.value === "") {
@@ -20,7 +34,7 @@
 
         function UpdateText(elementName, value) {
             var element = document.getElementById(elementName);
-           element.value = value;
+            element.value = value;
         }
 
         function UpdateInnerHTML(elementName) {
@@ -63,7 +77,9 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
                 <li><a style="font-size: 22px" href="~/Pack/Create"> <i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i></a></li>
+                <li><a style="font-size: 22px" href="~/History/Show"> <i class="fa fa-history" aria-hidden="true"></i> </a>      </li>
             </ul>
+            
             <ul class="nav navbar-nav navbar-right">
                 <li><a style="font-size: 22px" href="~/Register/Edit">Witaj, @Model.Name <i class="fa fa-user fa-fw" aria-hidden="true"></i></a></li>
             </ul>
@@ -80,7 +96,7 @@
 </div>
 
 
-<script src="~/Scripts/jquery-1.9.1.min.js"></script>
+
 <script src="~/Scripts/bootstrap.min.js"></script>
 
 </body>

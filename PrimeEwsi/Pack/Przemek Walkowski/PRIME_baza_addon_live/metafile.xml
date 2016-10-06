@@ -3,15 +3,17 @@
   <TestEnvironment>ZT002 - POZST04</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_addon_live">
     <Version>
-      <name>0.0.0.5</name>
+      <name>0.0.0.19</name>
       <type>Incremental</type>
       <FileList>
-        <FileName>wbk_txn_import_cashback.sql</FileName>
+        <FileName>wbk_create_fee.sql</FileName>
+        <FileName>wbk_create_fee.sql</FileName>
+        <FileName>wbk_create_fee.sql</FileName>
       </FileList>
     </Version>
   </DeploymentComponent>
   <ResolvedIssues>
-    <TKey>TEET-54643</TKey>
+    <TKey>Teet-34353</TKey>
   </ResolvedIssues>
   <IchangeProjects>
     <Pname>Production Operations</Pname>
