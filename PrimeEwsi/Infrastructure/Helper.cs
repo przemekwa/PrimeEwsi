@@ -18,8 +18,6 @@ namespace PrimeEwsi.Infrastructure
 
     public static class Helper
     {
-        
-
         public static UserModel GetUserModel()
         {
             var userSkp = HttpContext.Current.User.Identity.Name;

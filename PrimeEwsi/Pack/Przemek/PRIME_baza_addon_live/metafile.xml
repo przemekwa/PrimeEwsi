@@ -3,7 +3,7 @@
   <TestEnvironment>ZT002 - POZST04</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_addon_live">
     <Version>
-      <name>0.0.0.25</name>
+      <name>0.0.0.26</name>
       <type>Incremental</type>
       <FileList />
     </Version>
@@ -12,6 +12,6 @@
     <TKey>Teet-34543</TKey>
   </ResolvedIssues>
   <IchangeProjects>
-    <Pname>Production Operations</Pname>
+    <Pname>MZ1435</Pname>
   </IchangeProjects>
 </DeploymentPackage>

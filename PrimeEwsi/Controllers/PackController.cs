@@ -18,7 +18,7 @@ namespace PrimeEwsi.Controllers
     {
         public PackApi PackApi { get; set; }
 
-        public PrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
+        public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
 #if DEBUG
         private const string SERVERURL = "https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
@@ -30,7 +30,7 @@ namespace PrimeEwsi.Controllers
         {
             this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
             
-            this.PackApi = new PackApi(new PrimeEwsiContext(), new UrbanCodeMetaFIleApi());
+            this.PackApi = new PackApi(new PrimeEwsiDbApi(new PrimeEwsiContext()), new UrbanCodeMetaFIleApi());
         }
 
         public ActionResult Create()

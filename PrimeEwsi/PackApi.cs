@@ -13,13 +13,13 @@ namespace PrimeEwsi
 {
     public class PackApi
     {
-        public PrimeEwsiContext PrimeEwsiContext { get; set; }
-
         public UrbanCodeMetaFIleApi UrbanCodeMetaFIleApi { get; set; }
 
-        public PackApi(PrimeEwsiContext primeEwsiContext, UrbanCodeMetaFIleApi urbanCodeMetaFIleApi)
+        public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
+
+        public PackApi(PrimeEwsiDbApi primeEwsiDbApi, UrbanCodeMetaFIleApi urbanCodeMetaFIleApi)
         {
-            PrimeEwsiContext = primeEwsiContext;
+            PrimeEwsiDbApi = primeEwsiDbApi;
             UrbanCodeMetaFIleApi = urbanCodeMetaFIleApi;
         }
 
@@ -35,7 +35,7 @@ namespace PrimeEwsi
                 Name = packModel.Component,
                 Version = new DeploymentPackageDeploymentComponentVersion
                 {
-                    Name = this.PrimeEwsiContext.ConfigModel.Single(c => c.Component == packModel.Component).Version.ToString(),
+                    Name = this.PrimeEwsiDbApi.GetConfigModelByComponent(packModel.Component).Version,
                     Type = "Incremental",
                     Property = (new List<DeploymentPackageDeploymentComponentProperty>()).ToArray(),
                     FileList = listOfLies.Select(d => d.Name).ToArray()
@@ -72,7 +72,7 @@ namespace PrimeEwsi
 
         public void AddPackToHistory(PackModel packModel)
         {
-            this.PrimeEwsiContext.HistoryPackColection.Add(new HistoryPackModel
+            this.PrimeEwsiDbApi.AddHistoryPack(new HistoryPackModel
             {
                 Component = packModel.Component,
                 Environment = packModel.TestEnvironment,
@@ -81,17 +81,15 @@ namespace PrimeEwsi
                 Teets = packModel.Teets,
                 UserId = packModel.UserId
             });
-
-            this.PrimeEwsiContext.SaveChanges();
         }
 
         public void UpdateVersion(string component)
         {
-            var configModel = this.PrimeEwsiContext.ConfigModel.SingleOrDefault(m => m.Component == component);
+            var configModel = this.PrimeEwsiDbApi.GetConfigModelByComponent(component);
 
-            configModel.Version = PrimeEwsi.Infrastructure.Helper.UpdateVersion(configModel.Version);
+            configModel.Version = Infrastructure.Helper.UpdateVersion(configModel.Version);
 
-            this.PrimeEwsiContext.SaveChanges();
+            this.PrimeEwsiDbApi.UpdateConfig(configModel);
         }
 
 

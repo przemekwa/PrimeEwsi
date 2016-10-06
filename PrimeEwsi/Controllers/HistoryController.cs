@@ -10,11 +10,11 @@ namespace PrimeEwsi.Controllers
 {
     public class HistoryController : Controller
     {
-        public PrimeEwsiContext PrimeEwsiContext { get; set; }
+        public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
         public HistoryController(/*PrimeEwsiContext primeEwsiContext*/)
         {
-            PrimeEwsiContext = new PrimeEwsiContext();
+            this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
         }
 
         public ActionResult Show()
@@ -23,7 +23,8 @@ namespace PrimeEwsi.Controllers
 
             model.SetUser(Helper.GetUserModel());
 
-            model.HistoryPackModelCollection = this.PrimeEwsiContext.HistoryPackColection.OrderByDescending(p=>p.Id).ToList();
+            model.HistoryPackModelCollection =
+                this.PrimeEwsiDbApi.GetHistoryPacksByUserId(model.UserId).OrderByDescending(p => p.Id).ToList();
 
             return View(model);
         }

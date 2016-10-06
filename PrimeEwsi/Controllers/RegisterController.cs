@@ -12,7 +12,7 @@ namespace PrimeEwsi.Controllers
     [HandleErrorException]
     public class RegisterController : Controller
     {
-        public PrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
+        public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
         public RegisterController()
         {

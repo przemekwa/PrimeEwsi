@@ -379,6 +379,7 @@
     </Compile>
     <Compile Include="Infrastructure\Helper.cs" />
     <Compile Include="Infrastructure\HandleErrorException.cs" />
+    <Compile Include="IPrimeEwsiDbApi.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />

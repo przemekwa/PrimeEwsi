@@ -6,7 +6,7 @@ using PrimeEwsi.Models;
 
 namespace PrimeEwsi
 {
-    public class PrimeEwsiDbApi
+    public class PrimeEwsiDbApi : IPrimeEwsiDbApi
     {
         public PrimeEwsiContext PrimeEwsiContext { get; set; }
 
@@ -54,6 +54,27 @@ namespace PrimeEwsi
             return this.PrimeEwsiContext.SaveChanges();
         }
 
+
+        public ConfigModel GetConfigModelByComponent(string component)
+        {
+            return this.PrimeEwsiContext.ConfigModel.Single(c => c.Component == component);
+        }
+
+        public int AddHistoryPack(HistoryPackModel historyPackModel)
+        {
+            this.PrimeEwsiContext.HistoryPackColection.Add(historyPackModel);
+
+            return this.PrimeEwsiContext.SaveChanges();
+        }
+
+        public int UpdateConfig(ConfigModel configModel)
+        {
+            var config = this.GetConfigModelByComponent(configModel.Component);
+
+            config.Version = configModel.Version;
+
+            return this.PrimeEwsiContext.SaveChanges();
+        }
 
        
     }
