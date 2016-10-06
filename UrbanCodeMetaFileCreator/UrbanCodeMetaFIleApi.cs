@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UrbanCodeMetaFileCreator
 {
-    public class UrbanCodeMetaFIleApi
+    public class UrbanCodeMetaFileApi
     {
        
     }

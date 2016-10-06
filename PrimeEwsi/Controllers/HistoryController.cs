@@ -12,9 +12,9 @@ namespace PrimeEwsi.Controllers
     {
         public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
-        public HistoryController(/*PrimeEwsiContext primeEwsiContext*/)
+        public HistoryController(IPrimeEwsiDbApi primeEwsiDbApi)
         {
-            this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
+            this.PrimeEwsiDbApi = primeEwsiDbApi;
         }
 
         public ActionResult Show()

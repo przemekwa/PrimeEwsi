@@ -12,7 +12,7 @@ namespace PrimeEwsi
 
         public PrimeEwsiDbApi(PrimeEwsiContext primeEwsiContext)
         {
-            PrimeEwsiContext = new PrimeEwsiContext();
+            PrimeEwsiContext = primeEwsiContext;
         }
 
         public HistoryPackModel GetHistoryPacksByPackId(int packId)

@@ -3,15 +3,18 @@
   <TestEnvironment>ZT002 - POZST04</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_addon_live">
     <Version>
-      <name>0.0.0.26</name>
+      <name>0.0.0.28</name>
       <type>Incremental</type>
-      <FileList />
+      <FileList>
+        <FileName>wbk_create_fee.sql</FileName>
+      </FileList>
     </Version>
   </DeploymentComponent>
   <ResolvedIssues>
     <TKey>Teet-34543</TKey>
+    <TKey>Teet-34353</TKey>
   </ResolvedIssues>
   <IchangeProjects>
-    <Pname>MZ1435</Pname>
+    <Pname>Production Operations</Pname>
   </IchangeProjects>
 </DeploymentPackage>

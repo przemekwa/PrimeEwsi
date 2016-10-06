@@ -14,9 +14,9 @@ namespace PrimeEwsi.Controllers
     {
         public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
-        public RegisterController()
+        public RegisterController(IPrimeEwsiDbApi primeEwsiDbApi)
         {
-            this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
+            PrimeEwsiDbApi = primeEwsiDbApi;
         }
 
         public ActionResult New()

@@ -11,16 +11,13 @@ using UrbanCodeMetaFileCreator.Dto;
 
 namespace PrimeEwsi
 {
-    public class PackApi
+    public class PackApi : IPackApi
     {
-        public UrbanCodeMetaFIleApi UrbanCodeMetaFIleApi { get; set; }
-
         public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
-        public PackApi(PrimeEwsiDbApi primeEwsiDbApi, UrbanCodeMetaFIleApi urbanCodeMetaFIleApi)
+        public PackApi(IPrimeEwsiDbApi primeEwsiDbApi)
         {
             PrimeEwsiDbApi = primeEwsiDbApi;
-            UrbanCodeMetaFIleApi = urbanCodeMetaFIleApi;
         }
 
         public FileInfo CreatePackFile(PackModel packModel)
@@ -92,8 +89,6 @@ namespace PrimeEwsi
             this.PrimeEwsiDbApi.UpdateConfig(configModel);
         }
 
-
-
         private IEnumerable<FileInfo> GetFileForSVN(PackModel packModel, string dirPath )
         {
             var svnUrls =
@@ -125,8 +120,6 @@ namespace PrimeEwsi
 
             return pathToFolderWithUserPack;
         }
-
-      
 
     }
 }

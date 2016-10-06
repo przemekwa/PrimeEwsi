@@ -16,7 +16,7 @@ namespace PrimeEwsi.Controllers
     [HandleErrorException]
     public class PackController : Controller
     {
-        public PackApi PackApi { get; set; }
+        public IPackApi PackApi { get; set; }
 
         public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
@@ -26,11 +26,10 @@ namespace PrimeEwsi.Controllers
         private const string SERVERURL = "https://ewsi.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
 #endif
 
-        public PackController()
+        public PackController(IPackApi packApi, IPrimeEwsiDbApi primeEwsiDbApi)
         {
-            this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
-            
-            this.PackApi = new PackApi(new PrimeEwsiDbApi(new PrimeEwsiContext()), new UrbanCodeMetaFIleApi());
+            PackApi = packApi;
+            PrimeEwsiDbApi = primeEwsiDbApi;
         }
 
         public ActionResult Create()
@@ -125,7 +124,7 @@ namespace PrimeEwsi.Controllers
 #if DEBUG
                 client.Credentials = new NetworkCredential(packModel.UserSkp.Substring(9), "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN");
 #else
-                client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), packModel.ApiKey);
+                client.Credentials = new NetworkCredential(packModel.UserSkp.Substring(9), packModel.UserApiKey);
 #endif
                 var resultByte = client.UploadFile(new Uri($"{SERVERURL}{packFile.Name}"), "PUT", packFile.FullName);
                   
