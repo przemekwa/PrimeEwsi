@@ -38,7 +38,7 @@
                     <td>
                         <div class="ComponentPack">
                             <div class="form-group">
-                                <label for="usr">Teets:</label>
+                                <label for="usr">Teets</label>
 
                                 <table>
                                     <tr>
@@ -76,7 +76,7 @@
                         <div class="ComponentPack">
                             <div class="dropdown">
                                 <div class="form-group">
-                                    <label for="usr">Component:</label>
+                                    <label for="usr">Component</label>
 
                                     <table>
                                         <tr>
@@ -111,7 +111,7 @@
                     <td>
                         <div class="ComponentPack">
                             <div class="form-group">
-                                <label for="usr">Projects:</label>
+                                <label for="usr">Projects</label>
 
                                 <table>
                                     <tr>
@@ -123,8 +123,6 @@
 
                                 
                             </div>
-
-                            
 
                             @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m=>m.Projects).Take(2))
                             {
@@ -140,7 +138,7 @@
 
                         <div class="dropdown">
                             <div class="form-group">
-                                <label for="usr">Test environment</label>
+                                <label for="usr">Environment</label>
 
                                 <table>
                                     <tr>
@@ -177,7 +175,7 @@
                     <td>
                         <div class="ComponentPack">
                             <div class="form-group">
-                                <label for="usr">Files</label>
+                                <label for="usr">SVN Files</label>
 
                                 <div id="files">
 
@@ -195,8 +193,10 @@
 
             </table>
 
-                <input type="submit" value="Download" name="action:Download" />
-                <input type="submit" value="Send IVEC" name="action:Send" />
+            <button name="action:Download" type="submit" class="btn btn-primary">Download</button>
+            <button name="action:Send" type="submit" class="btn btn-primary">Create IVEC</button>
+
+          
 
         }
     </div>

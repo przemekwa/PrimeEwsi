@@ -6,23 +6,54 @@
 
  <div class="panel panel-primary" style="width: 50%; margin-top: 20px">
     <div class="panel-heading">
-        <h3 class="panel-title">Add new user profile</h3>
+        <h3 class="panel-title">Add user profile</h3>
     </div>
-    <div class="panel-body">
-        
-        @using (Html.BeginForm("Add", "Register"))
-        {
-            @Html.ValidationSummary()
+     <div class="panel-body">
 
-            <p>Nick @Html.EditorFor(m => m.UserName)</p>
+         @using (Html.BeginForm("Update", "Register"))
+         {
+             @Html.ValidationSummary()
 
-            <p>Api Key @Html.EditorFor(m => m.UserApiKey)</p> <a href="https://wro2096v.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get ApiKey</a>
 
-            <p>SVN User Name @Html.EditorFor(m => m.SvnUser)</p>
+             <div class="form-group">
+                 <div class="form-group">
+                     <label for="usr">Name</label>
+                     <input class="form-control" id="UserName" name="UserName" type="text" value="" />
+                 </div>
+             </div>
+            
+             <div class="form-group">
+                 <div class="form-group">
+                     <label for="usr">Artifactory API key</label>
+                     <input class="form-control" id="UserApiKey" name="UserApiKey" type="text" value="" />
 
-            <p>SVN Password  @Html.EditorFor(m => m.SvnPassword)</p>
+                     <a href="https://wro2096v.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get test API key</a>
+                     <a href="https://ewsi.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get API key</a>
+                 </div>
+             </div>
 
-            <input type="submit" value="Add" />
-        }
-    </div>
+
+             <div class="form-group">
+                 <div class="form-group">
+                     <label for="usr">SVN user</label>
+                     <input class="form-control" id="SvnUser" name="SvnUser" type="text" value="" />
+
+                 </div>
+             </div>
+
+
+             <div class="form-group">
+                 <div class="form-group">
+                     <label for="usr">SVN Password</label>
+                     <input class="form-control" id="SvnPassword" name="SvnPassword" type="password" value="" />
+
+                 </div>
+             </div>
+
+             <button type="submit" class="btn btn-primary">Add</button>
+
+
+         }
+     </div>
+
 </div>

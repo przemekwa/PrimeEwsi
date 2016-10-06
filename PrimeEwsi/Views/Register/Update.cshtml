@@ -14,16 +14,45 @@
         {
             @Html.ValidationSummary()
 
-            <p>Nick @Html.EditorFor(m => m.UserName, new { value=@Model.UserName })</p>
 
-            <p>Api Key @Html.EditorFor(m => m.UserApiKey) <a href="https://wro2096v.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get ApiKey</a>
-            </p>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="usr">Name</label>
+                    <input class="form-control" id="UserName" name="UserName" type="text" value="@Model.UserName" />
+                </div>
+            </div>
 
-            <p>SVN User Name @Html.EditorFor(m => m.SvnUser)</p>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="usr">Artifactory API key</label>
+                    <input class="form-control" id="UserApiKey" name="UserApiKey" type="text" value="@Model.UserApiKey"/>
+                    
+                    <a href="https://wro2096v.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get test API key</a>
+                    <a href="https://ewsi.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get API key</a>
+                </div>
+            </div>
 
-            <p>SVN Password  @Html.EditorFor(m => m.SvnPassword)</p>
 
-            <input type="submit" value="Update" />
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="usr">SVN user</label>
+                    <input class="form-control" id="SvnUser" name="SvnUser" type="text" value="@Model.SvnUser"/>
+                    
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="usr">SVN Password</label>
+                    <input class="form-control" id="SvnPassword" name="SvnPassword" type="password" value="@Model.SvnPassword"/>
+
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Update</button>
+
+         
         }
     </div>
 </div>

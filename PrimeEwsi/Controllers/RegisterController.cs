@@ -39,7 +39,10 @@ namespace PrimeEwsi.Controllers
                 return View("Update", userModel);
             }
 
-            userModel.UserId = this.PrimeEwsiDbApi.GetUser(this.HttpContext.User.Identity.Name).UserId;
+            var user = this.PrimeEwsiDbApi.GetUser(this.HttpContext.User.Identity.Name);
+
+            userModel.UserId = user.UserId;
+            userModel.UserSkp = user.UserSkp;
 
             this.PrimeEwsiDbApi.UpdateUser(userModel);
 
