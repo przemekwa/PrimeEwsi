@@ -39,18 +39,33 @@
                         <div class="ComponentPack">
                             <div class="form-group">
                                 <label for="usr">Teets:</label>
-                                <input class="form-control" id="Teets" name="Teets" type="text" value="" />
+
+                                <table>
+                                    <tr>
+                                        <td><input class="form-control" id="Teets" name="Teets" type="text" value="" /></td>
+                                        <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i></td>
+                                    </tr>
+                                </table>
+                               
+                                  
+                             
+                                
+                               
                             </div>
 
-                       
+                         
 
                        
 
 
-                            <i class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i>
+                          
                             @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Teets).Take(2))
                             {
-                                <a href="#" onclick='AddText("Teets", "@pack.Key")'>@pack.Key</a>
+                                foreach (var s in pack.Key.Split(','))
+                                {
+                                    <a href="#" onclick='AddText("Teets", "@s")'>@s</a>
+                                }
+
                             }
 
                         </div>
@@ -62,21 +77,31 @@
                             <div class="dropdown">
                                 <div class="form-group">
                                     <label for="usr">Component:</label>
-                                    <input class="form-control" id="Component" name="Component" type="text" value=""/>
+
+                                    <table>
+                                        <tr>
+                                            <td><input class="form-control" id="Component" name="Component" type="text" value="" /></td>
+                                            <td>
+                                                <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    Components
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_wbk20")'>WBK20</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_addon_live")'>AddonLive</a>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                   
                                 </div>
 
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                    Components
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_wbk20")'>WBK20</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_addon_live")'>AddonLive</a> 
-                                    </li>
-                                </ul>
+                               
                             </div>
 
                         </div>
@@ -87,10 +112,19 @@
                         <div class="ComponentPack">
                             <div class="form-group">
                                 <label for="usr">Projects:</label>
-                                <input class="form-control" id="ProjectId" name="ProjectId" type="text" value="" />
+
+                                <table>
+                                    <tr>
+                                        <td><input class="form-control" id="ProjectId" name="ProjectId" type="text" value="" /></td>
+                                        <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("ProjectId", "")' aria-hidden="true"></i></td>
+                                    </tr>
+                                </table>
+
+
+                                
                             </div>
 
-                            <i class="fa fa-trash-o fw" onclick='UpdateText("ProjectId", "")' aria-hidden="true"></i>
+                            
 
                             @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m=>m.Projects).Take(2))
                             {
@@ -107,23 +141,33 @@
                         <div class="dropdown">
                             <div class="form-group">
                                 <label for="usr">Test environment</label>
-                                <input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="" />
+
+                                <table>
+                                    <tr>
+                                        <td><input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="" /></td>
+                                        <td>
+                                            <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                Environment
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT001 - POZPP07" )'>ZT001</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT002 - POZST04")'>ZT002</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT004 - POZST04")'>ZT004</a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                
                             </div>
-                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                Environment
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT001 - POZPP07" )'>ZT001</a>
-                                </li>
-                                <li>
-                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT002 - POZST04")'>ZT002</a>
-                                </li>
-                                <li>
-                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT004 - POZST04")'>ZT004</a>
-                                </li>
-                            </ul>
+                            
                         </div>
                     </div>
                 </td>
@@ -132,12 +176,13 @@
                 <tr>
                     <td>
                         <div class="ComponentPack">
-                            <div id="files">
-
-                            </div>
-
                             <div class="form-group">
                                 <label for="usr">Files</label>
+
+                                <div id="files">
+
+                                </div>
+
                                 <input style="margin-top: 10px" class="form-control" id="FilesInput" name="FilesInput" type="text" value="" />
                             </div>
 

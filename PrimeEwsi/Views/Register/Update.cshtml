@@ -14,9 +14,9 @@
         {
             @Html.ValidationSummary()
 
-            <p>Nick @Html.EditorFor(m => m.Name, new { value=@Model.Name })</p>
+            <p>Nick @Html.EditorFor(m => m.UserName, new { value=@Model.UserName })</p>
 
-            <p>Api Key @Html.EditorFor(m => m.ApiKey) <a href="https://wro2096v.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get ApiKey</a>
+            <p>Api Key @Html.EditorFor(m => m.UserApiKey) <a href="https://wro2096v.centrala.bzwbk:9999/artifactory/webapp/#/login" target="_blank">Get ApiKey</a>
             </p>
 
             <p>SVN User Name @Html.EditorFor(m => m.SvnUser)</p>

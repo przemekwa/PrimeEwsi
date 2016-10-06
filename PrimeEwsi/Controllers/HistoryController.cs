@@ -23,7 +23,7 @@ namespace PrimeEwsi.Controllers
 
             model.SetUser(Helper.GetUserModel());
 
-            model.PackCollection = this.PrimeEwsiContext.PackCollection.OrderByDescending(p=>p.Id).ToList();
+            model.HistoryPackModelCollection = this.PrimeEwsiContext.HistoryPackColection.OrderByDescending(p=>p.Id).ToList();
 
             return View(model);
         }

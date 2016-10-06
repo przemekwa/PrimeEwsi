@@ -3,7 +3,7 @@
   <TestEnvironment>ZT002 - POZST04</TestEnvironment>
   <DeploymentComponent name="PRIME_baza_addon_live">
     <Version>
-      <name>0.0.0.22</name>
+      <name>0.0.0.24</name>
       <type>Incremental</type>
       <FileList>
         <FileName>wbk_create_fee.sql</FileName>

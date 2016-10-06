@@ -9,6 +9,6 @@ namespace PrimeEwsi.Models
     [NotMapped]
     public class HistoryModel : UserModel
     {
-        public List<Pack> PackCollection { get; set; }
+        public List<HistoryPackModel> HistoryPackModelCollection { get; set; }
     }
 }

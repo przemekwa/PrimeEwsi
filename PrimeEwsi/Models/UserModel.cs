@@ -12,13 +12,13 @@ namespace PrimeEwsi.Models
     {
         [Key]
         [Column("id")]
-        public int Id { get; set; }
+        public int UserId { get; set; }
 
         [Column("name")]
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         [Column("skp")]
-        public string Skp { get; set; }
+        public string UserSkp { get; set; }
 
         [Column("svn_user")]
         public string SvnUser { get; set; }
@@ -28,16 +28,16 @@ namespace PrimeEwsi.Models
         public string SvnPassword { get; set; }
 
         [Column("apikey")]
-        public string ApiKey { get; set; }
+        public string UserApiKey { get; set; }
 
         public void SetUser(UserModel userModel)
         {
-            this.Id = userModel.Id;
-            this.Name = userModel.Name;
-            this.Skp = userModel.Skp;
+            this.UserId = userModel.UserId;
+            this.UserName = userModel.UserName;
+            this.UserSkp = userModel.UserSkp;
             this.SvnPassword = userModel.SvnPassword;
             this.SvnUser = userModel.SvnUser;
-            this.ApiKey = userModel.ApiKey;
+            this.UserApiKey = userModel.UserApiKey;
         }
     }
 }

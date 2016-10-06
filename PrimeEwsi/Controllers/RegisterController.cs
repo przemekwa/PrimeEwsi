@@ -12,18 +12,18 @@ namespace PrimeEwsi.Controllers
     [HandleErrorException]
     public class RegisterController : Controller
     {
-        public PrimeEwsiContext PrimeEwsiContext { get; set; } 
+        public PrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
         public RegisterController()
         {
-            this.PrimeEwsiContext = new PrimeEwsiContext();
+            this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
         }
 
         public ActionResult New()
         {
             return View(new UserModel
             {
-                Skp = this.HttpContext.User.Identity.Name
+                UserSkp = this.HttpContext.User.Identity.Name
             });
         }
 
@@ -39,19 +39,9 @@ namespace PrimeEwsi.Controllers
                 return View("Update", userModel);
             }
 
-            var userDb = this.PrimeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == this.HttpContext.User.Identity.Name);
+            userModel.UserId = this.PrimeEwsiDbApi.GetUser(this.HttpContext.User.Identity.Name).UserId;
 
-            if (userDb == null)
-            {
-                throw new Exception($"Brak użytkownika {this.HttpContext.User.Identity.Name} w bazie");
-            }
-
-            userDb.Name = userModel.Name;
-            userDb.SvnUser = userModel.SvnUser;
-            userDb.SvnPassword = userModel.SvnPassword;
-            userDb.ApiKey = userModel.ApiKey;
-
-            this.PrimeEwsiContext.SaveChanges();
+            this.PrimeEwsiDbApi.UpdateUser(userModel);
 
             return RedirectToAction("Create", "Pack");
         }
@@ -63,23 +53,21 @@ namespace PrimeEwsi.Controllers
                 return View("New", userModel);
             }
 
-            userModel.Skp = this.HttpContext.User.Identity.Name;
+            userModel.UserSkp = this.HttpContext.User.Identity.Name;
 
-            this.PrimeEwsiContext.UsersModel.Add(userModel);
-
-            this.PrimeEwsiContext.SaveChanges();
+            this.PrimeEwsiDbApi.AddUser(userModel);
 
             return RedirectToAction("Create", "Pack");
         }
 
         private bool Validate(UserModel userModel)
         {
-            if (string.IsNullOrEmpty(userModel.Name))
+            if (string.IsNullOrEmpty(userModel.UserName))
             {
                 this.ModelState.AddModelError("Błąd", "Pole [Name] - uzupełnij identyfikator");
             }
 
-            if (string.IsNullOrEmpty(userModel.ApiKey))
+            if (string.IsNullOrEmpty(userModel.UserApiKey))
             {
                 this.ModelState.AddModelError("Błąd", "Pole [ApiKey] - uzupełnij klucz z artifactory");
             }

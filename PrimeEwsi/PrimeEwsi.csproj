@@ -382,13 +382,14 @@
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />
-    <Compile Include="Models\Pack.cs" />
+    <Compile Include="Models\HistoryPackModel.cs" />
     <Compile Include="Models\PackModel.cs" />
     <Compile Include="Models\SendModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="MultipleButtonAttribute.cs" />
     <Compile Include="PackApi.cs" />
     <Compile Include="PrimeEwsiContext.cs" />
+    <Compile Include="PrimeEwsiDbApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

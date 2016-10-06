@@ -72,14 +72,14 @@ namespace PrimeEwsi
 
         public void AddPackToHistory(PackModel packModel)
         {
-            this.PrimeEwsiContext.PackCollection.Add(new Pack
+            this.PrimeEwsiContext.HistoryPackColection.Add(new HistoryPackModel
             {
                 Component = packModel.Component,
                 Environment = packModel.TestEnvironment,
                 Files = string.Join("|", packModel.Files),
                 Projects = packModel.ProjectId,
                 Teets = packModel.Teets,
-                UserId = packModel.Id
+                UserId = packModel.UserId
             });
 
             this.PrimeEwsiContext.SaveChanges();
@@ -116,7 +116,7 @@ namespace PrimeEwsi
 
         private string CreateDirectory(PackModel packModel)
         {
-            var pathToFolderWithUserPack = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~"), "Pack", packModel.Name, packModel.Component);
+            var pathToFolderWithUserPack = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~"), "Pack", packModel.UserName, packModel.Component);
 
             if (Directory.Exists(pathToFolderWithUserPack))
             {

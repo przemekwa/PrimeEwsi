@@ -26,7 +26,7 @@ namespace PrimeEwsi.Infrastructure
             
             var primeEwsiContext = new PrimeEwsiContext();
 
-            return primeEwsiContext.UsersModel.SingleOrDefault(m => m.Skp == userSkp);
+            return primeEwsiContext.UsersModel.SingleOrDefault(m => m.UserSkp == userSkp);
         }
 
         public static string FormatJson(string json)

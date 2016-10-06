@@ -1,31 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Mime;
-using System.Text;
-using System.Web;
-using System.Web.Mvc;
-using PrimeEwsi.Models;
-
-using UrbanCodeMetaFileCreator;
-using UrbanCodeMetaFileCreator.Dto;
-
-
+﻿
 namespace PrimeEwsi.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mime;
+    using System.Text;
+    using System.Web;
+    using System.Web.Mvc;
+    using Models;
+
+    using UrbanCodeMetaFileCreator;
     using Infrastructure;
 
     [HandleErrorException]
     public class PackController : Controller
     {
-        public PrimeEwsiContext PrimeEwsiContext { get; set; } 
-
         public PackApi PackApi { get; set; }
+
+        public PrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
 #if DEBUG
         private const string SERVERURL = "https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
@@ -35,13 +28,14 @@ namespace PrimeEwsi.Controllers
 
         public PackController()
         {
-            this.PrimeEwsiContext = new PrimeEwsiContext();
+            this.PrimeEwsiDbApi = new PrimeEwsiDbApi(new PrimeEwsiContext());
+            
             this.PackApi = new PackApi(new PrimeEwsiContext(), new UrbanCodeMetaFIleApi());
         }
 
         public ActionResult Create()
         {
-            var userModel = Helper.GetUserModel();
+            var userModel = Infrastructure.Helper.GetUserModel();
 
             if (userModel == null)
             {
@@ -50,7 +44,7 @@ namespace PrimeEwsi.Controllers
 
             var model = new PackModel()
             {
-                HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == userModel.Id)
+                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
                 //Teets = "Teet-34353",
                 //TestEnvironment = "ZT001 - POZPP07",
                 //Files =
@@ -65,13 +59,13 @@ namespace PrimeEwsi.Controllers
             return View(model);
         }
 
-        public ActionResult Download(int packId) => this.Add(GetPackModel(packId));
+        public ActionResult Download(int packId) => this.Download(GetPackModel(packId));
 
-        public ActionResult CreateIvec(int packId) => this.Send(GetPackModel(packId));
+        public ActionResult CreateIvec(int packId) => this.CreateIvec(GetPackModel(packId));
 
         private PackModel GetPackModel(int packId)
         {
-            var pack = this.PrimeEwsiContext.PackCollection.Single(p => p.Id == packId);
+            var pack = this.PrimeEwsiDbApi.GetHistoryPacksByPackId(packId);
 
             var packModel = new PackModel
             {
@@ -87,13 +81,13 @@ namespace PrimeEwsi.Controllers
 
         [HttpPost]
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
-        public ActionResult Add(PackModel packModel)
+        public ActionResult Download(PackModel packModel)
         {
-            packModel.SetUser(Helper.GetUserModel());
+            packModel.SetUser(Infrastructure.Helper.GetUserModel());
 
             if (Validate(packModel))
             {
-                packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
+                packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
 
                 return View("Create", packModel);
             }
@@ -113,11 +107,11 @@ namespace PrimeEwsi.Controllers
 
         [HttpPost]
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
-        public ActionResult Send(PackModel packModel)
+        public ActionResult CreateIvec(PackModel packModel)
         {
-            packModel.SetUser(Helper.GetUserModel());
+            packModel.SetUser(Infrastructure.Helper.GetUserModel());
 
-            packModel.HistoryPackCollection = this.PrimeEwsiContext.PackCollection.Where(p => p.UserId == packModel.Id);
+            packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
             
             if (Validate(packModel))
             {
@@ -129,7 +123,7 @@ namespace PrimeEwsi.Controllers
             using (var client = new WebClient())
             {
 #if DEBUG
-                client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN");
+                client.Credentials = new NetworkCredential(packModel.UserSkp.Substring(9), "AP6sYG9ktmWsTVcSp5roxfFytckrqyFXvxx6hN");
 #else
                 client.Credentials = new NetworkCredential(packModel.Skp.Substring(9), packModel.ApiKey);
 #endif
@@ -137,7 +131,7 @@ namespace PrimeEwsi.Controllers
                   
                 packModel.SendModel = new SendModel
                 {
-                    Result = Helper.FormatJson(Encoding.UTF8.GetString(resultByte))
+                    Result = Infrastructure.Helper.FormatJson(Encoding.UTF8.GetString(resultByte))
                 };
 
                 return View("Create", packModel);
