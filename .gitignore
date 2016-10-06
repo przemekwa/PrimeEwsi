@@ -6,8 +6,8 @@
 *.zip
 *.sql
 
-Content/DataTables
-Scripts/DataTables
+PrimeEwsi/Content/DataTables
+PrimeEwsi/Scripts/DataTables
 
 # User-specific files
 *.suo
