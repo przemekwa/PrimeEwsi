@@ -8,7 +8,6 @@
 @Scripts.Render("~/bundles/dataTables")
 @Scripts.Render("~/bundles/view-history")
 
-
 <h2>History</h2>
 
 <table id="historyTable" class="display" style="width: 100%">
@@ -29,8 +28,8 @@
     {
         <tr>
             <td>
-                @Html.ActionLink("Download", "Download", "Pack", new {@packId = @p.Id}, new {@class = "btn btn-primary btn-xs", @style = "margin: 3px"})
-                @Html.ActionLink("Send IVEC", "CreateIvec", "Pack", new {@packId = @p.Id}, new {@class = "btn btn-primary btn-xs", @style = "margin: 3px"})
+                @Html.ActionLink("Download ZIP", "Download", "Pack", new {@packId = @p.Id}, new {@class = "btn btn-primary btn-xs", @style = "margin: 3px"})
+                @Html.ActionLink("Create IVEC", "CreateIvec", "Pack", new {@packId = @p.Id}, new {@class = "btn btn-primary btn-xs", @style = "margin: 3px"})
 
 
             </td>
