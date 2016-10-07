@@ -35,28 +35,51 @@
                 <tr>
                     <td>
                         <div class="ComponentPack">
-                            <div class="form-group">
-                                <label for="usr">Teets</label>
 
-                                <table>
-                                    <tr>
-                                        <td><input class="form-control" id="Teets" name="Teets" type="text" value="@Model.Teets" /></td>
-                                        <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i></td>
-                                    </tr>
-                                </table>
-                               
-                                  
-                             
-                                
-                               
+                            <div class="dropdown">
+                                <div class="form-group">
+                                    <label for="usr">Teets</label>
+
+                                    <table>
+                                        <tr>
+                                            <td><input class="form-control" id="Teets" name="Teets" type="text" value="@Model.Teets"/></td>
+                                            <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i></td>
+                                            <td>
+                                                <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    JIRA Teets
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+
+                                                     @foreach (var s in Model.JiraTeets)
+                                                     {
+                                                        <li>
+                                                            <a href='#' onclick='UpdateText("Teets", "@s")'>@s</a>
+                                                        </li>
+                                                     }
+                                                   
+                                                  
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+                                </div>
+
                             </div>
 
-                         
-
-                       
 
 
-                          
+
+                           
+
+
+
+
+
+
+
                             @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Teets).Take(2))
                             {
                                 if (string.IsNullOrEmpty(pack.Key))

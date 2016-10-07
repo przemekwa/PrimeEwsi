@@ -8,6 +8,8 @@ namespace PrimeEwsi.Models
     {
         public IEnumerable<HistoryPackModel> HistoryPackCollection { get; set; }
 
+        public IEnumerable<string> JiraTeets { get; set; }
+
         public string Teets { get; set; }
       
         public string ProjectId { get; set; }

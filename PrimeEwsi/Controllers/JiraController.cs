@@ -17,7 +17,7 @@ namespace PrimeEwsi.Controllers
         {
             var model = new JiraModel();
 
-            model.SetUser(Helper.GetUserModel();
+            model.SetUser(Helper.GetUserModel());
 
             return View(model);
         }

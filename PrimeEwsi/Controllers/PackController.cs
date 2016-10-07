@@ -45,7 +45,8 @@ namespace PrimeEwsi.Controllers
 
             var model = new PackModel()
             {
-               HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
+               HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId),
+               JiraTeets = new List<string>() { "Ala"}
             };
 
             model.SetUser(userModel);
