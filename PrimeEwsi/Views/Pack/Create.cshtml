@@ -59,6 +59,11 @@
                           
                             @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Teets).Take(2))
                             {
+                                if (string.IsNullOrEmpty(pack.Key))
+                                {
+                                    continue;
+                                }
+
                                 foreach (var s in pack.Key.Split(','))
                                 {
                                     <a href="#" onclick='AddText("Teets", "@s")'>@s</a>

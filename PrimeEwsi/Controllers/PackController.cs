@@ -45,7 +45,7 @@ namespace PrimeEwsi.Controllers
 
             var model = new PackModel()
             {
-                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
+               HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
             };
 
             model.SetUser(userModel);

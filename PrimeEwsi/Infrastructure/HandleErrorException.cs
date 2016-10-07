@@ -17,7 +17,7 @@ namespace PrimeEwsi.Infrastructure
         /// <param name="filterContext">Filter context</param>
         public void OnException(ExceptionContext filterContext)
         {
-            var errorModel = new ErrorModel("Wystąpił błąd. Skontaktuj się z administratorem");
+            var errorModel = new ErrorModel("Wystąpił błąd. Skontaktuj się z administratorem","");
             
             try
             {
@@ -28,12 +28,12 @@ namespace PrimeEwsi.Infrastructure
 
                 filterContext.ExceptionHandled = true;
 
-                errorModel = new ErrorModel(filterContext.Exception.Message);
+                errorModel = new ErrorModel(filterContext.Exception.Message, filterContext.Exception.StackTrace);
             }
             catch (Exception e)
             {
                 errorModel =
-                    new ErrorModel($"Wystapił błąd podczas generowania modelu do blędu {e.Message}");
+                    new ErrorModel($"Wystapił błąd podczas generowania modelu do blędu {e.Message}", e.StackTrace);
             }
             finally
             {
