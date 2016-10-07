@@ -64,6 +64,10 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimpleInjector, Version=3.2.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.3.2.2\lib\net45\SimpleInjector.dll</HintPath>
       <Private>True</Private>
@@ -399,6 +403,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
+    <Compile Include="Controllers\JiraController.cs" />
     <Compile Include="Controllers\PackController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Global.asax.cs">
@@ -412,6 +417,7 @@
     <Compile Include="Models\ErrorModel.cs" />
     <Compile Include="Models\HistoryModel.cs" />
     <Compile Include="Models\HistoryPackModel.cs" />
+    <Compile Include="Models\JiraModel.cs" />
     <Compile Include="Models\PackModel.cs" />
     <Compile Include="Models\SendModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -428,6 +434,7 @@
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Register\Update.cshtml" />
     <Content Include="Views\History\Show.cshtml" />
+    <Content Include="Views\Jira\Authentication.cshtml" />
     <None Include="Views\Register\New.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <None Include="Web.Debug.config">

@@ -26,6 +26,9 @@ namespace PrimeEwsi.Models
         [Column("apikey")]
         public string UserApiKey { get; set; }
 
+        [Column("jiracookie")]
+        public string UserJiraCookie { get; set; }
+
         public void SetUser(UserModel userModel)
         {
             this.UserId = userModel.UserId;

@@ -43,6 +43,7 @@ namespace PrimeEwsi
             user.UserApiKey = userModel.UserApiKey;
             user.SvnUser = userModel.SvnUser;
             user.SvnPassword = userModel.SvnPassword;
+            user.UserJiraCookie = userModel.UserJiraCookie;
 
             return this.PrimeEwsiContext.SaveChanges();
         }

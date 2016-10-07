@@ -1,0 +1,42 @@
+﻿@model PrimeEwsi.Models.JiraModel
+@{
+    ViewBag.Title = "Authentication";
+}
+
+<h2>Authentication</h2>
+
+@if (!string.IsNullOrEmpty(Model.UserJiraCookie))
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong>Your JIRA cookie is @Model.Cookie
+    </div>
+}
+
+<div class="panel panel-primary" style="width: 70%; margin-top: 20px">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">Add Pack</h3>
+    </div>
+
+    <div class="panel-body">
+
+
+        @using (Html.BeginForm("SetCookie", "Jira", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label for="usr">Name:</label>
+                <input type="text" class="form-control" id="user" Name="user">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="password" Name="password">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm</button>
+
+        }
+
+
+    </div>
+</div>
