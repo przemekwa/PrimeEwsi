@@ -45,13 +45,22 @@ namespace PrimeEwsi.Controllers
 
             var model = new PackModel()
             {
-                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId),
-                Files = new List<string>() { "Plik1", "Plik2"}
+                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
             };
 
             model.SetUser(userModel);
 
             return View(model);
+        }
+
+        public ActionResult Edit(int packId)
+        {
+            var model = GetPackModel(packId);
+
+            model.SetUser(Infrastructure.Helper.GetUserModel());
+            model.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(model.UserId);
+
+            return View("Create", model);
         }
 
         public ActionResult Download(int packId) => this.Download(GetPackModel(packId));
