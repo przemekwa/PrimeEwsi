@@ -54,7 +54,7 @@
                                                      @foreach (var s in Model.JiraTeets)
                                                      {
                                                         <li>
-                                                            <a href='#' onclick='UpdateText("Teets", "@s")'>@s</a>
+                                                            <a href='#' onclick='UpdateText("Teets", "@s.Id")'>@s.Id - @s.Summary</a>
                                                         </li>
                                                      }
                                                    

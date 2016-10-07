@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace PrimeEwsi.Controllers
 {
@@ -46,12 +48,43 @@ namespace PrimeEwsi.Controllers
             var model = new PackModel()
             {
                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId),
-               JiraTeets = new List<string>() { "Ala"}
+               JiraTeets = this.GetJiraTets(userModel.UserJiraCookie)
             };
 
             model.SetUser(userModel);
 
             return View(model);
+        }
+
+        public IEnumerable<JiraTeet> GetJiraTets(string cookie)
+        {
+            if (string.IsNullOrEmpty(cookie))
+            {
+                return new List<JiraTeet>();
+            }
+
+            var restClient = new RestClient("https://godzilla.centrala.bzwbk:9999");
+
+            var request = new RestRequest($"/rest/api/2/search?jql=assignee={Infrastructure.Helper.GetUserModel().UserSkp.Substring(9)}&fields=id,key,summary", Method.GET);
+
+            request.AddCookie("JSESSIONID", cookie);
+
+            var response = restClient.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return new List<JiraTeet>();
+            }
+
+            var jResponse = JObject.Parse(response.Content);
+
+            return jResponse["issues"]
+                .Where(i => i["key"].Value<string>().Contains("TEET"))
+                .Select(i => new JiraTeet
+                {
+                    Id = i["key"].Value<string>(),
+                    Summary = i["fields"]["summary"].Value<string>()
+                }).Take(10);
         }
 
         public ActionResult Edit(int packId)
