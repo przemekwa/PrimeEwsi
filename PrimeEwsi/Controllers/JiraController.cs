@@ -10,6 +10,7 @@ using RestSharp;
 
 namespace PrimeEwsi.Controllers
 {
+    [HandleErrorException]
     public class JiraController : Controller
     {
         // GET: Jira
