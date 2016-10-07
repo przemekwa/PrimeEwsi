@@ -57,3 +57,14 @@ function AddFile() {
    
     fileInput.value = "";
 }
+
+function AddFileFromValue(value) {
+
+    var filesContainer = document.getElementById("files");
+    
+    filesContainer
+        .innerHTML += "<div id='filesContainer" + index + "'><a target='_blank' href='" + value + "'> " + value + " <\a>" +
+        " <input class='fileInput' id='Files_" + index + "_' name='Files[" + index + "]' type='hidden' value='" + value + "' />" + "<i style='margin: 3px' class='fa fa-pencil' onclick='EditFile(" + index + ")' aria-hidden='true'></i>" + "<i style='margin: 3px' class='fa fa-trash-o fw' onclick='DeleteFile(" + index + ")' aria-hidden='true'></i></div>";
+    index++;
+   
+}

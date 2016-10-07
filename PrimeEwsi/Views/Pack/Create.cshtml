@@ -176,7 +176,12 @@
                                 <label for="usr">SVN Files</label>
 
                                 <div id="files">
-
+                                    @foreach (var f in Model.Files)
+                                    {
+                                        <script>
+                                            AddFileFromValue('@f');
+                                        </script>
+                                    }
                                 </div>
 
                                 <input style="margin-top: 10px" class="form-control" id="FilesInput" name="FilesInput" type="text" value="" />

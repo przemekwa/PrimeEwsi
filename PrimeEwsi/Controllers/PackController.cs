@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace PrimeEwsi.Controllers
 {
     using System;
@@ -43,7 +45,8 @@ namespace PrimeEwsi.Controllers
 
             var model = new PackModel()
             {
-                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId)
+                HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId),
+                Files = new List<string>() { "Plik1", "Plik2"}
             };
 
             model.SetUser(userModel);
