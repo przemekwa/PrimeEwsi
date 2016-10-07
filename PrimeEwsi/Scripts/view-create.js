@@ -31,21 +31,29 @@ function DeleteFile(name) {
      }
 }
 
+function EditFile(index) {
+    console.log(index);
+    var fileName = document.getElementById("Files_" + index + "_").value;
+
+    console.log(fileName);
+    document.getElementById("FilesInput").value = fileName;
+    DeleteFile(index);
+}
+
 var index = 0;
 
 function AddFile() {
     var filesContainer = document.getElementById("files");
     var fileInput = document.getElementById("FilesInput");
-
-        
-
-
+    
     if (fileInput.value === "") {
         return;
     }
 
     filesContainer
         .innerHTML += "<div id='filesContainer"+index+"'><a target='_blank' href='" + fileInput.value + "'> " + fileInput.value + " <\a>" +
-        " <input class='fileInput' id='Files_" + index + "_' name='Files[" + index + "]' type='hidden' value='" + fileInput.value + "' />" + "<i class='fa fa-trash-o fw' onclick='DeleteFile(" + index + ")' aria-hidden='true'></i></div>";
+        " <input class='fileInput' id='Files_" + index + "_' name='Files[" + index + "]' type='hidden' value='" + fileInput.value + "' />" + "<i style='margin: 3px' class='fa fa-pencil' onclick='EditFile(" + index + ")' aria-hidden='true'></i>" + "<i style='margin: 3px' class='fa fa-trash-o fw' onclick='DeleteFile(" + index + ")' aria-hidden='true'></i></div>";
     index++;
+   
+    fileInput.value = "";
 }
