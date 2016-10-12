@@ -87,12 +87,15 @@ namespace PrimeEwsi.Controllers
                 }).Take(10);
         }
 
+       
+
         public ActionResult Edit(int packId)
         {
             var model = GetPackModel(packId);
 
             model.SetUser(Infrastructure.Helper.GetUserModel());
             model.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(model.UserId);
+            model.JiraTeets = this.GetJiraTets(model.UserJiraCookie);
 
             return View("Create", model);
         }

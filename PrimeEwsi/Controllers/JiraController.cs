@@ -18,8 +18,6 @@ namespace PrimeEwsi.Controllers
         {
             var model = new JiraModel();
 
-            model.SetUser(Helper.GetUserModel());
-
             return View(model);
         }
 
@@ -39,8 +37,6 @@ namespace PrimeEwsi.Controllers
             var jResponse = JObject.Parse(response);
 
             model.Cookie = jResponse["session"]["value"].ToString();
-
-            model.SetUser(Helper.GetUserModel());
 
             return View("Authentication", model);
         }
