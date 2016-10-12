@@ -114,7 +114,8 @@ namespace PrimeEwsi.Controllers
                 ProjectId = pack.Projects,
                 Teets = pack.Teets,
                 TestEnvironment = pack.Environment,
-                Files = pack.Files.Split('|').ToList()
+                Files = pack.Files.Split('|').ToList(),
+               
             };
 
             return packModel;
@@ -129,6 +130,7 @@ namespace PrimeEwsi.Controllers
             if (Validate(packModel))
             {
                 packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
+                packModel.JiraTeets = this.GetJiraTets(packModel.UserJiraCookie);
 
                 return View("Create", packModel);
             }
@@ -153,7 +155,8 @@ namespace PrimeEwsi.Controllers
             packModel.SetUser(Infrastructure.Helper.GetUserModel());
 
             packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
-            
+            packModel.JiraTeets = this.GetJiraTets(packModel.UserJiraCookie);
+
             if (Validate(packModel))
             {
                 return View("Create", packModel);
