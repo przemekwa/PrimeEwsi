@@ -15,6 +15,7 @@ namespace PrimeEwsi
 
             bundles.Add(new ScriptBundle("~/bundles/view-create").Include("~/Scripts/view-create.js"));
             bundles.Add(new ScriptBundle("~/bundles/view-history").Include("~/Scripts/view-history.js"));
+            bundles.Add(new ScriptBundle("~/bundles/view-autorization").Include("~/Scripts/view-autorization.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include("~/Scripts/DataTables/jquery.dataTables.js"));
 

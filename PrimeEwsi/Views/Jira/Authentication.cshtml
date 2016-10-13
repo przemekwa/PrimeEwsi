@@ -1,15 +1,17 @@
-﻿@model PrimeEwsi.Models.JiraModel
+﻿@using System.Web.Optimization
+@model PrimeEwsi.Models.JiraModel
 @{
     ViewBag.Title = "Authentication";
 }
 
 <h2>Authentication</h2>
 
+
 @if (!string.IsNullOrEmpty(Model.Cookie))
 {
     <div class="alert alert-success fade in">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success!</strong>Your JIRA cookie is @Model.Cookie
+        <strong>Success!</strong> Your JIRA cookie is  <span id="copyArea">@Model.Cookie</span> <button class="js-textareacopybtn"><i class="fa fa-clipboard" aria-hidden="true"></i></button>
     </div>
 }
 
@@ -39,3 +41,4 @@
 
     </div>
 </div>
+@Scripts.Render("~/bundles/view-autorization")
