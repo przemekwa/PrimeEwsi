@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Optimization;
-using System.Web.Routing;
-using SimpleInjector;
-using SimpleInjector.Integration.Web;
-using SimpleInjector.Integration.Web.Mvc;
+﻿
 
 namespace PrimeEwsi
 {
+    using System;
+    using System.Reflection;
+    using System.Web;
+    using System.Web.Mvc;
+    using System.Web.Optimization;
+    using System.Web.Routing;
+
+    using SimpleInjector;
+    using SimpleInjector.Integration.Web;
+    using SimpleInjector.Integration.Web.Mvc;
+    using Infrastructure.Jira;
+
     public class MvcApplication : System.Web.HttpApplication
     {
         protected void Application_Start()
@@ -25,6 +27,8 @@ namespace PrimeEwsi
             container.Register<PrimeEwsiContext>(() => new PrimeEwsiContext(), Lifestyle.Scoped);
 
             container.Register<IPrimeEwsiDbApi, PrimeEwsiDbApi>(Lifestyle.Scoped);
+
+            container.Register<IJiraApi, JiraApi>(Lifestyle.Scoped);
 
             container.Register<IPackApi, PackApi>(Lifestyle.Scoped);
 

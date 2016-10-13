@@ -37,6 +37,7 @@ namespace PrimeEwsi.Models
             this.SvnPassword = userModel.SvnPassword;
             this.SvnUser = userModel.SvnUser;
             this.UserApiKey = userModel.UserApiKey;
+            this.UserJiraCookie = userModel.UserJiraCookie;
         }
     }
 }

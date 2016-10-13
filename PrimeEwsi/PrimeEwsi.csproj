@@ -412,6 +412,8 @@
     </Compile>
     <Compile Include="Infrastructure\Helper.cs" />
     <Compile Include="Infrastructure\HandleErrorException.cs" />
+    <Compile Include="Infrastructure\Jira\IJiraApi.cs" />
+    <Compile Include="Infrastructure\Jira\JiraApi.cs" />
     <Compile Include="Infrastructure\PackApi\IPackApi.cs" />
     <Compile Include="Infrastructure\DB\IPrimeEwsiDbApi.cs" />
     <Compile Include="Models\ConfigModel.cs" />

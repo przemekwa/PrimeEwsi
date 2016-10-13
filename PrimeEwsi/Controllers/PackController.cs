@@ -1,8 +1,4 @@
 ﻿
-using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using RestSharp;
-
 namespace PrimeEwsi.Controllers
 {
     using System;
@@ -16,6 +12,8 @@ namespace PrimeEwsi.Controllers
 
     using UrbanCodeMetaFileCreator;
     using Infrastructure;
+    using Infrastructure.Jira;
+    using SimpleInjector;
 
     [HandleErrorException]
     public class PackController : Controller
@@ -24,16 +22,19 @@ namespace PrimeEwsi.Controllers
 
         public IPrimeEwsiDbApi PrimeEwsiDbApi { get; set; }
 
+        public IJiraApi JiraApi { get; set; }
+
 #if DEBUG
         private const string SERVERURL = "https://wro2096v.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
 #else
         private const string SERVERURL = "https://ewsi.centrala.bzwbk:9999/artifactory/bzwbk-tmp/BZWBK/PRIME/";
 #endif
 
-        public PackController(IPackApi packApi, IPrimeEwsiDbApi primeEwsiDbApi)
+        public PackController(IPackApi packApi, IPrimeEwsiDbApi primeEwsiDbApi, IJiraApi jiraApi)
         {
             PackApi = packApi;
             PrimeEwsiDbApi = primeEwsiDbApi;
+            JiraApi = jiraApi;
         }
 
         public ActionResult Create()
@@ -45,57 +46,18 @@ namespace PrimeEwsi.Controllers
                 return RedirectToAction("New", "Register");
             }
 
-            var model = new PackModel()
-            {
-               HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(userModel.UserId),
-               JiraTeets = this.GetJiraTets(userModel.UserJiraCookie)
-            };
+            var model = new PackModel();
 
-            model.SetUser(userModel);
+            this.FillPackModel(model);
 
             return View(model);
         }
-
-        public IEnumerable<JiraTeet> GetJiraTets(string cookie)
-        {
-            if (string.IsNullOrEmpty(cookie))
-            {
-                return new List<JiraTeet>();
-            }
-
-            var restClient = new RestClient("https://godzilla.centrala.bzwbk:9999");
-
-            var request = new RestRequest($"rest/api/2/search?jql=AssigneeGroup='!DRA-ZRP'&fields=id,key,summary", Method.GET);
-
-            request.AddCookie("JSESSIONID", cookie);
-
-            var response = restClient.Execute(request);
-
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
-            {
-                return new List<JiraTeet>();
-            }
-
-            var jResponse = JObject.Parse(response.Content);
-
-            return jResponse["issues"]
-                .Where(i => i["key"].Value<string>().Contains("TEET"))
-                .Select(i => new JiraTeet
-                {
-                    Id = i["key"].Value<string>(),
-                    Summary = i["fields"]["summary"].Value<string>()
-                }).Take(10);
-        }
-
-       
 
         public ActionResult Edit(int packId)
         {
             var model = GetPackModel(packId);
 
-            model.SetUser(Infrastructure.Helper.GetUserModel());
-            model.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(model.UserId);
-            model.JiraTeets = this.GetJiraTets(model.UserJiraCookie);
+            this.FillPackModel(model);
 
             return View("Create", model);
         }
@@ -125,13 +87,10 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Download")]
         public ActionResult Download(PackModel packModel)
         {
-            packModel.SetUser(Infrastructure.Helper.GetUserModel());
+            this.FillPackModel(packModel);
 
             if (Validate(packModel))
             {
-                packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
-                packModel.JiraTeets = this.GetJiraTets(packModel.UserJiraCookie);
-
                 return View("Create", packModel);
             }
 
@@ -152,10 +111,7 @@ namespace PrimeEwsi.Controllers
         [MultipleButtonAttribute(Name = "action", Argument = "Send")]
         public ActionResult CreateIvec(PackModel packModel)
         {
-            packModel.SetUser(Infrastructure.Helper.GetUserModel());
-
-            packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
-            packModel.JiraTeets = this.GetJiraTets(packModel.UserJiraCookie);
+            this.FillPackModel(packModel);
 
             if (Validate(packModel))
             {
@@ -180,6 +136,15 @@ namespace PrimeEwsi.Controllers
 
                 return View("Create", packModel);
             }
+        }
+
+        private void FillPackModel(PackModel packModel)
+        {
+            packModel.SetUser(Infrastructure.Helper.GetUserModel());
+
+            packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
+
+            packModel.JiraTeets = this.JiraApi.GetJiraTets(packModel.UserJiraCookie);
         }
 
         private bool Validate(PackModel packModel)
