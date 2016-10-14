@@ -48,7 +48,7 @@ namespace PrimeEwsi
                 system = "PRIME",
                 TestEnvironment = packModel.TestEnvironment,
                 IchangeProjects = new List<string> { packModel.ProjectId }.ToArray(),
-                ResolvedIssues = packModel.Teets?.Split(','),
+                ResolvedIssues = packModel.Teets?.Split(',').Select(s=>s.Trim()).ToArray(),
                 DeploymentComponent = new DeploymentPackageDeploymentComponent[1] { dc }
             });
 
