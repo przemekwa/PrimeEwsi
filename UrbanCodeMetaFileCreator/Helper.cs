@@ -14,6 +14,9 @@ using File = System.IO.File;
 
 namespace UrbanCodeMetaFileCreator
 {
+    using SharpSvn;
+    using SharpSvn.Security;
+
     public static class Helper
     {
         public static string Manifestfilename = Path.Combine(Path.GetTempPath(), "manifest.xml");
@@ -103,13 +106,19 @@ namespace UrbanCodeMetaFileCreator
             return new FileInfo(Manifestfilename);
         }
 
-        //public static void DownloadFileUsingSvnCheckout(Uri adress)
-        //{
-        //    using (var client = new SvnClient())
-        //    {
-        //        client.CheckOut(adress, "d:\\sharpsvn\\Exensions.cs");
-        //    }
-        //}
+        public static FileInfo DownloadFileUsingSvnCheckout(Dto.SqlFile sqlFile, NetworkCredential networkCredential, string serverPath)
+        {
+            using (var client = new SvnClient())
+            {
+                client.LoadConfiguration(serverPath);
+
+                client.Authentication.DefaultCredentials = networkCredential;
+                
+                client.Export(new SvnUriTarget(sqlFile.URL), serverPath);
+            }
+
+            return new FileInfo(Path.Combine(serverPath, sqlFile.Name));
+        }
 
         public static DeploymentPackage GetDeploymentPackage(string name, DeploymentPackageDeploymentComponentVersion version)
         {

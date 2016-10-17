@@ -104,7 +104,7 @@ namespace PrimeEwsi
                 Password = packModel.SvnPassword
             };
 
-            return svnUrls.Select(svnUrl => Helper.DownloadFileUsingWebClient(svnUrl, nc, dirPath));
+            return svnUrls.Select(svnUrl => Helper.DownloadFileUsingSvnCheckout(svnUrl, nc, dirPath));
         }
 
         private string CreateDirectory(PackModel packModel)

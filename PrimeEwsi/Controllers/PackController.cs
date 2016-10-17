@@ -128,13 +128,18 @@ namespace PrimeEwsi.Controllers
                 client.Credentials = new NetworkCredential(packModel.UserSkp.Substring(9), packModel.UserApiKey);
 #endif
                 var resultByte = client.UploadFile(new Uri($"{SERVERURL}{packFile.Name}"), "PUT", packFile.FullName);
-                  
-                packModel.SendModel = new SendModel
+
+                var model = new PackModel
                 {
-                    Result = Infrastructure.Helper.FormatJson(Encoding.UTF8.GetString(resultByte))
+                    SendModel = new SendModel
+                    {
+                        Result = Infrastructure.Helper.FormatJson(Encoding.UTF8.GetString(resultByte))
+                    }
                 };
 
-                return View("Create", packModel);
+                this.FillPackModel(model);
+
+                return View("Create", model);
             }
         }
 
