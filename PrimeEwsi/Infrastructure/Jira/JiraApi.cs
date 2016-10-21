@@ -6,6 +6,7 @@ using System.Web;
 namespace PrimeEwsi.Infrastructure.Jira
 {
     using System.Net;
+    using System.Text.RegularExpressions;
     using Models;
     using Newtonsoft.Json.Linq;
     using RestSharp;
@@ -41,6 +42,32 @@ namespace PrimeEwsi.Infrastructure.Jira
                     Id = i["key"].Value<string>(),
                     Summary = i["fields"]["summary"].Value<string>()
                 }).Take(10);
+        }
+
+        public IEnumerable<string> GetComponents(string cookie)
+        {
+            if (string.IsNullOrEmpty(cookie))
+            {
+                return new List<string>();
+            }
+
+            var restClient = new RestClient("https://godzilla.centrala.bzwbk:9999");
+
+            var request = new RestRequest($"rest/api/2/search?jql=issuetype=\"13\"AND(\"summary\"~\"PRIME*\"OR\"summary\"~\"PIS*\")&fields=summary", Method.GET);
+
+            request.AddCookie("JSESSIONID", cookie);
+
+            var response = restClient.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return new List<string>();
+            }
+
+            var jResponse = JObject.Parse(response.Content);
+
+            return jResponse["issues"].Select(m => m["fields"]["summary"].Value<string>()).Where(s=>Regex.IsMatch(s,"PRIME_*") || Regex.IsMatch(s, "PIS_")).OrderBy(s=>s);
+
         }
     }
 }

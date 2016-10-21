@@ -21,5 +21,7 @@ namespace PrimeEwsi.Models
         public string TestEnvironment { get; set; }
 
         public SendModel SendModel { get; set; }
+
+        public IEnumerable<string> JiraComponents { get; set; }
     }
 }

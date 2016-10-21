@@ -113,12 +113,17 @@
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_wbk20")'>WBK20</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" onclick='UpdateText("Component", "PRIME_baza_addon_live")'>AddonLive</a>
-                                                    </li>
+
+
+                                                    @foreach (var s in Model.JiraComponents)
+                                                    {
+                                                        <li>
+                                                            <a href='#' onclick='UpdateText("Component", "@s")'>@s</a>
+                                                        </li>
+                                                    }
+
+                                                  
+                                                  
                                                 </ul>
                                             </td>
                                         </tr>

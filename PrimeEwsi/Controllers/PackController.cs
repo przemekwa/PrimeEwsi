@@ -59,7 +59,7 @@ namespace PrimeEwsi.Controllers
             var model = GetPackModel(packId);
 
             this.FillPackModel(model);
-
+            
             return View("Create", model);
         }
 
@@ -151,6 +151,9 @@ namespace PrimeEwsi.Controllers
             packModel.HistoryPackCollection = this.PrimeEwsiDbApi.GetHistoryPacksByUserId(packModel.UserId);
 
             packModel.JiraTeets = this.JiraApi.GetJiraTets(packModel.UserJiraCookie);
+
+            packModel.JiraComponents = this.JiraApi.GetComponents(packModel.UserJiraCookie);
+
         }
 
         private bool Validate(PackModel packModel)
