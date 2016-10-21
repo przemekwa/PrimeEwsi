@@ -6,6 +6,7 @@ namespace PrimeEwsi.Controllers
     using System.Net;
     using System.Net.Mime;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Mvc;
     using Models;
@@ -154,6 +155,19 @@ namespace PrimeEwsi.Controllers
 
         private bool Validate(PackModel packModel)
         {
+            if (!packModel.Files.Any())
+            {
+                this.ModelState.AddModelError("Błąd", "Pole [SVN Files] - uzupełnij pliki do paczki");
+            }
+
+            foreach (var file in packModel.Files)
+            {
+                if (!Regex.IsMatch(file, "http://.*"))
+                {
+                    this.ModelState.AddModelError("Błąd", "Pole [SVN Files] - podaj prawidłowy link do pliku");
+                }
+            }
+
             if (string.IsNullOrEmpty(packModel.Component))
             {
                 this.ModelState.AddModelError("Błąd", "Pole [Component] - uzupełnij komponent");
