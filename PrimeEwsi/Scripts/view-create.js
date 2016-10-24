@@ -70,6 +70,12 @@ function AddFileFromValue(value) {
 }
 
 $(function () {
+    document.getElementById("Teets").tabIndex = "1";
+    document.getElementById("Component").tabIndex = "2";
+    document.getElementById("ProjectId").tabIndex = "3";
+    document.getElementById("TestEnvironment").tabIndex = "4";
+    document.getElementById("FilesInput").tabIndex = "5";
+
     CreateAutoComplet("TestEnvironment");
     CreateAutoComplet("Component");
     CreateAutoComplet("Teets");
