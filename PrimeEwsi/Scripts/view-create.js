@@ -68,3 +68,31 @@ function AddFileFromValue(value) {
     index++;
    
 }
+
+$(function () {
+    CreateAutoComplet("TestEnvironment");
+    CreateAutoComplet("Component");
+    CreateAutoComplet("Teets");
+});
+
+function CreateAutoComplet(name) {
+    var availableTags = [];
+
+    var liElements = document.getElementById(name + "-dropdown-items").getElementsByTagName("li");
+
+    for (i = 0; i < liElements.length; i++) {
+        availableTags.push(liElements[i].innerText.trim());
+    }
+
+    $("#"+name+"").autocomplete({
+        source: availableTags,
+        delay: 100
+
+    }).data("ui-autocomplete")._renderMenu = function (ul, items) {
+        var that = this;
+        $.each(items, function (index, item) {
+            that._renderItemData(ul, item);
+        });
+        $(ul).addClass("dropdown-menu");
+    }
+}

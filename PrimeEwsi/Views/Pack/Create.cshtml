@@ -49,7 +49,7 @@
                                                     JIRA Teets
                                                     <span class="caret"></span>
                                                 </button>
-                                                <ul class="dropdown-menu">
+                                                <ul id="Teets-dropdown-items"  class="dropdown-menu">
 
                                                      @foreach (var s in Model.JiraTeets)
                                                      {
@@ -112,7 +112,7 @@
                                                     Components
                                                     <span class="caret"></span>
                                                 </button>
-                                                <ul class="dropdown-menu">
+                                                <ul id="Component-dropdown-items" class="dropdown-menu">
 
 
                                                     @foreach (var s in Model.JiraComponents)
@@ -167,19 +167,24 @@
                 <td>
                    <div class="ComponentPack">
 
-                        <div class="dropdown">
-                            <div class="form-group">
-                                <label for="usr">Environment</label>
+                       <div class="dropdown">
+                           <div class="form-group">
+                               <label for="usr">Environment</label>
 
-                                <table>
-                                    <tr>
-                                        <td><input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="@Model.TestEnvironment" /></td>
-                                        <td>
+                               <table>
+                                   <tr>
+                                       <td>
+                                           
+                                               <input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="@Model.TestEnvironment" />
+                                       
+                                       </td>
+                           
+<td>
                                             <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                                                 Environment
                                                 <span class="caret"></span>
                                             </button>
-                                            <ul class="dropdown-menu">
+                                            <ul id="TestEnvironment-dropdown-items" class="dropdown-menu">
 
                                                 @foreach (var s in Model.JiraEnvironment)
                                                 {

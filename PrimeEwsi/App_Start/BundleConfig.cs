@@ -13,7 +13,11 @@ namespace PrimeEwsi
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/view-create").Include("~/Scripts/view-create.js"));
+            bundles.Add(new ScriptBundle("~/bundles/view-create")
+                .Include("~/Scripts/jquery-ui.js", "~/Scripts/view-create.js" ));
+                
+
+
             bundles.Add(new ScriptBundle("~/bundles/view-history").Include("~/Scripts/view-history.js"));
             bundles.Add(new ScriptBundle("~/bundles/view-autorization").Include("~/Scripts/view-autorization.js"));
 
@@ -26,7 +30,8 @@ namespace PrimeEwsi
                 .Include(
                 "~/Content/bootstrap.css",
                 "~/Content/Site.css", 
-                "~/Content/font-awesome.css"
+                "~/Content/font-awesome.css",
+                "~/Scripts/jquery-ui.css"
                 ));
 
 #if !DEBUG
