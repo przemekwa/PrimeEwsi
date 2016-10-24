@@ -69,5 +69,32 @@ namespace PrimeEwsi.Infrastructure.Jira
             return jResponse["issues"].Select(m => m["fields"]["summary"].Value<string>()).Where(s=>Regex.IsMatch(s,"PRIME_*") || Regex.IsMatch(s, "PIS_")).OrderBy(s=>s);
 
         }
+
+
+        public IEnumerable<string> GetEnvironment(string cookie)
+        {
+            if (string.IsNullOrEmpty(cookie))
+            {
+                return new List<string>();
+            }
+
+            var restClient = new RestClient("https://godzilla.centrala.bzwbk:9999");
+
+            var request = new RestRequest($"/rest/api/2/search?jql=issuetype=\"15\"&fields=summary", Method.GET);
+
+            request.AddCookie("JSESSIONID", cookie);
+
+            var response = restClient.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return new List<string>();
+            }
+
+            var jResponse = JObject.Parse(response.Content);
+
+            return jResponse["issues"].Select(m => m["fields"]["summary"].Value<string>()).Where(s=>s.Contains("ZT")).OrderBy(s=>s);
+
+        }
     }
 }

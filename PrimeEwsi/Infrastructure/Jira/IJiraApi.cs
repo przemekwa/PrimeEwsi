@@ -7,5 +7,6 @@ namespace PrimeEwsi.Infrastructure.Jira
     {
         IEnumerable<JiraTeet> GetJiraTets(string cookie);
         IEnumerable<string> GetComponents(string cookie);
+        IEnumerable<string> GetEnvironment(string cookie);
     }
 }

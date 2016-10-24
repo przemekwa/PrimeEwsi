@@ -23,5 +23,7 @@ namespace PrimeEwsi.Models
         public SendModel SendModel { get; set; }
 
         public IEnumerable<string> JiraComponents { get; set; }
+
+        public IEnumerable<string> JiraEnvironment { get; set; }
     }
 }

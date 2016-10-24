@@ -180,15 +180,14 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li>
-                                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT001 - POZPP07" )'>ZT001</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT002 - POZST04")'>ZT002</a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" onclick='UpdateText("TestEnvironment", "ZT004 - POZPP08")'>ZT004</a>
-                                                </li>
+
+                                                @foreach (var s in Model.JiraEnvironment)
+                                                {
+                                                    <li>
+                                                        <a href='#' onclick='UpdateText("TestEnvironment", "@s")'>@s</a>
+                                                    </li>
+                                                }
+                                               
                                             </ul>
                                         </td>
                                     </tr>
