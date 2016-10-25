@@ -16,7 +16,10 @@ namespace PrimeEwsi.Controllers
         // GET: Jira
         public ActionResult Authentication()
         {
-            var model = new JiraModel();
+            var model = new JiraModel
+            {
+                UserSkp = this.HttpContext.User.Identity.Name.Substring(9)
+            };
 
             return View(model);
         }

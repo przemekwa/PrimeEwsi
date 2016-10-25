@@ -106,10 +106,11 @@
 
                                     <table>
                                         <tr>
-                                            <td><input class="form-control" id="Component" name="Component" type="text" value="@Model.Component" /></td>
+                                            <td><input class="form-control" id="Component" name="Component" type="text" value="@Model.Component"/></td>
+                                            <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Component", "")' aria-hidden="true"></i></td>
                                             <td>
                                                 <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                    Components
+                                                    JIRA Components
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul id="Component-dropdown-items" class="dropdown-menu">
@@ -178,10 +179,10 @@
                                                <input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="@Model.TestEnvironment" />
                                        
                                        </td>
-                           
+                                       <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("TestEnvironment", "")' aria-hidden="true"></i></td>
 <td>
                                             <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                Environment
+                                                JIRA Environment
                                                 <span class="caret"></span>
                                             </button>
                                             <ul id="TestEnvironment-dropdown-items" class="dropdown-menu">

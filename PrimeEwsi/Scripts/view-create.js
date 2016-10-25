@@ -87,9 +87,10 @@ function CreateAutoComplet(name) {
     var liElements = document.getElementById(name + "-dropdown-items").getElementsByTagName("li");
 
     for (i = 0; i < liElements.length; i++) {
+
         availableTags.push(liElements[i].innerText.trim());
     }
-
+        
     $("#"+name+"").autocomplete({
         source: availableTags,
         delay: 100
