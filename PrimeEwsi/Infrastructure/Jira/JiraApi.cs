@@ -96,5 +96,30 @@ namespace PrimeEwsi.Infrastructure.Jira
             return jResponse["issues"].Select(m => m["fields"]["summary"].Value<string>()).Where(s=>s.Contains("ZT")).OrderBy(s=>s);
 
         }
+
+        public IEnumerable<string> GetProjects(string cookie)
+        {
+            if (string.IsNullOrEmpty(cookie))
+            {
+                return new List<string>();
+            }
+
+            var restClient = new RestClient("https://godzilla.centrala.bzwbk:9999");
+
+            var request = new RestRequest($"/rest/api/2/search?jql=Project=Projekty+and+status+in+(Aktywny,\"Aktywny+–+wstrzymana+promocja+IVEC\")&fields=summary&maxResults=200", Method.GET);
+
+            request.AddCookie("JSESSIONID", cookie);
+
+            var response = restClient.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return new List<string>();
+            }
+
+            var jResponse = JObject.Parse(response.Content);
+
+            return jResponse["issues"].Select(m => m["fields"]["summary"].Value<string>()).OrderBy(s => s);
+        }
     }
 }

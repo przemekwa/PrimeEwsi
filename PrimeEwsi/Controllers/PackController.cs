@@ -156,6 +156,8 @@ namespace PrimeEwsi.Controllers
 
             packModel.JiraEnvironment = this.JiraApi.GetEnvironment(packModel.UserJiraCookie);
 
+            packModel.JiraProject = this.JiraApi.GetProjects(packModel.UserJiraCookie);
+
         }
 
         private bool Validate(PackModel packModel)

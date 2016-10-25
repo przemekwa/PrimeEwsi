@@ -25,5 +25,6 @@ namespace PrimeEwsi.Models
         public IEnumerable<string> JiraComponents { get; set; }
 
         public IEnumerable<string> JiraEnvironment { get; set; }
+        public IEnumerable<string> JiraProject { get; internal set; }
     }
 }

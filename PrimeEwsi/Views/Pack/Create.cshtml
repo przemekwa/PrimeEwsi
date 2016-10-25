@@ -32,116 +32,113 @@
             @Html.ValidationSummary()
 
             <table>
-                <tr>
-                    <td>
-                        <div class="ComponentPack">
+            <tr>
+                <td>
+                    <div class="ComponentPack">
 
-                            <div class="dropdown">
-                                <div class="form-group">
-                                    <label for="usr">Teets</label>
+                        <div class="dropdown">
+                            <div class="form-group">
+                                <label for="usr">Teets</label>
 
-                                    <table>
-                                        <tr>
-                                            <td><input class="form-control" id="Teets" name="Teets" type="text" value="@Model.Teets"/></td>
-                                            <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i></td>
-                                            <td>
-                                                <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                    JIRA Teets
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul id="Teets-dropdown-items"  class="dropdown-menu">
+                                <table>
+                                    <tr>
+                                        <td><input class="form-control" id="Teets" name="Teets" type="text" value="@Model.Teets"/></td>
+                                        <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Teets", "")' aria-hidden="true"></i></td>
+                                        <td>
+                                            <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                JIRA Teets
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul id="Teets-dropdown-items" class="dropdown-menu">
 
-                                                     @foreach (var s in Model.JiraTeets)
-                                                     {
-                                                        <li>
-                                                            <a href='#' onclick='UpdateText("Teets", "@s.Id")'>@s.Id - @s.Summary</a>
-                                                        </li>
-                                                     }
-                                                   
-                                                  
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                                @foreach (var s in Model.JiraTeets)
+                                                {
+                                                    <li>
+                                                        <a href='#' onclick='UpdateText("Teets", "@s.Id")'>@s.Id - @s.Summary</a>
+                                                    </li>
+                                                }
 
 
-                                </div>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+
 
                             </div>
 
-
-
-
-                           
-
+                        </div>
+                        
 
 
 
 
 
 
-                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Teets).Take(2))
+
+                        @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Teets).Take(2))
+                        {
+                            if (string.IsNullOrEmpty(pack.Key))
                             {
-                                if (string.IsNullOrEmpty(pack.Key))
-                                {
-                                    continue;
-                                }
-
-                                foreach (var s in pack.Key.Split(','))
-                                {
-                                    <a href="#" onclick='AddText("Teets", "@s")'>@s</a>
-                                }
-
+                                continue;
                             }
 
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="ComponentPack">
-                            <div class="dropdown">
-                                <div class="form-group">
-                                    <label for="usr">Component</label>
+                            foreach (var s in pack.Key.Split(','))
+                            {
+                                <a href="#" onclick='AddText("Teets", "@s")'>@s</a>
+                            }
 
-                                    <table>
-                                        <tr>
-                                            <td><input class="form-control" id="Component" name="Component" type="text" value="@Model.Component"/></td>
-                                            <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Component", "")' aria-hidden="true"></i></td>
-                                            <td>
-                                                <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                                                    JIRA Components
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul id="Component-dropdown-items" class="dropdown-menu">
+                        }
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ComponentPack">
+                        <div class="dropdown">
+                            <div class="form-group">
+                                <label for="usr">Component</label>
+
+                                <table>
+                                    <tr>
+                                        <td><input class="form-control" id="Component" name="Component" type="text" value="@Model.Component"/></td>
+                                        <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("Component", "")' aria-hidden="true"></i></td>
+                                        <td>
+                                            <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                JIRA Components
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul id="Component-dropdown-items" class="dropdown-menu">
 
 
-                                                    @foreach (var s in Model.JiraComponents)
-                                                    {
-                                                        <li>
-                                                            <a href='#' onclick='UpdateText("Component", "@s")'>@s</a>
-                                                        </li>
-                                                    }
+                                                @foreach (var s in Model.JiraComponents)
+                                                {
+                                                    <li>
+                                                        <a href='#' onclick='UpdateText("Component", "@s")'>@s</a>
+                                                    </li>
+                                                }
 
-                                                  
-                                                  
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </table>
 
-                                   
-                                </div>
 
-                               
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
                             </div>
 
+
                         </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="ComponentPack">
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ComponentPack">
+                        <div class="dropdown">
                             <div class="form-group">
                                 <label for="usr">Projects</label>
 
@@ -149,38 +146,56 @@
                                     <tr>
                                         <td><input class="form-control" id="ProjectId" name="ProjectId" type="text" value="@Model.ProjectId" /></td>
                                         <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("ProjectId", "")' aria-hidden="true"></i></td>
+
+                                        <td>
+                                            <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                                JIRA Project
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul id="ProjectId-dropdown-items" class="dropdown-menu">
+
+                                                @foreach (var s in Model.JiraProject)
+                            {
+                                <li>
+                                    <a href='#' onclick='UpdateText("ProjectId", "@s")'>@s</a>
+                                </li>   
+                            }
+
+                                            </ul>
+                                        </td>
+
                                     </tr>
                                 </table>
 
-
-                                
                             </div>
 
-                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m=>m.Projects).Take(2))
+                            </div>
+
+                            @foreach (var pack in @Model.HistoryPackCollection.OrderByDescending(p => p.Id).GroupBy(m => m.Projects).Take(2))
                             {
                                 <a href="#" onclick='AddText("ProjectId", "@pack.Key")'>@pack.Key</a>
                             }
                         </div>
-                    </td>
-      
-                </tr>
+                </td>
+            </tr>
             <tr>
                 <td>
-                   <div class="ComponentPack">
+                    <div class="ComponentPack">
 
-                       <div class="dropdown">
-                           <div class="form-group">
-                               <label for="usr">Environment</label>
+                        <div class="dropdown">
+                            <div class="form-group">
+                                <label for="usr">Environment</label>
 
-                               <table>
-                                   <tr>
-                                       <td>
-                                           
-                                               <input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="@Model.TestEnvironment" />
-                                       
-                                       </td>
-                                       <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='UpdateText("TestEnvironment", "")' aria-hidden="true"></i></td>
-<td>
+                                <table>
+                                    <tr>
+                                        <td>
+
+                                            <input class="form-control" id="TestEnvironment" name="TestEnvironment" type="text" value="@Model.TestEnvironment"/>
+
+                                        </td>
+                                        <td><i style="margin-left: 5px" class="fa fa-trash-o fw" onclick='
+UpdateText("TestEnvironment", "")' aria-hidden="true"></i></td>
+                                        <td>
                                             <button style="margin-left: 5px" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                                                 JIRA Environment
                                                 <span class="caret"></span>
@@ -193,44 +208,43 @@
                                                         <a href='#' onclick='UpdateText("TestEnvironment", "@s")'>@s</a>
                                                     </li>
                                                 }
-                                               
+
                                             </ul>
                                         </td>
                                     </tr>
                                 </table>
 
-                                
+
                             </div>
-                            
+
                         </div>
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <div class="ComponentPack">
+                        <div class="form-group">
+                            <label for="usr">SVN Files</label>
 
-                <tr>
-                    <td>
-                        <div class="ComponentPack">
-                            <div class="form-group">
-                                <label for="usr">SVN Files</label>
-
-                                <div id="files">
-                                    @foreach (var f in Model.Files)
-                                    {
-                                        <script>
-                                            AddFileFromValue('@f');
-                                        </script>
-                                    }
-                                </div>
-
-                                <input style="margin-top: 10px" class="form-control" id="FilesInput" name="FilesInput" type="text" value="" />
+                            <div id="files">
+                                @foreach (var f in Model.Files)
+                                {
+                                    <script>
+                                        AddFileFromValue('@f');
+                                    </script>
+                                }
                             </div>
 
-                           
-                            <a href="#" onclick='AddFile()'> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add</a>
+                            <input style="margin-top: 10px" class="form-control" id="FilesInput" name="FilesInput" type="text" value=""/>
                         </div>
-                    </td>
 
-                </tr>
+
+                        <a href="#" onclick='AddFile()'> <i class="fa fa-plus-circle" aria-hidden="true"></i> Add</a>
+                    </div>
+                </td>
+
+            </tr>
 
             </table>
 
