@@ -76,7 +76,6 @@ $(function () {
     document.getElementById("TestEnvironment").tabIndex = "4";
     document.getElementById("FilesInput").tabIndex = "5";
 
- 
     CreateAutoComplet("TestEnvironment");
     CreateAutoComplet("Component");
     CreateAutoComplet("Teets");
